@@ -9,6 +9,15 @@
     <div class="container my-3">
         <header>
             <h1>User registration</h1>
+            <!-- //tu pokazuje błędy na stronie rejestracji: -->
+            {% if user.errors is not empty %}
+            <p>Errors:</p>
+            <ul>
+                {% for error in user.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
         </header>
         <div class="row">
             <div class="col-sm-12 mb-4">

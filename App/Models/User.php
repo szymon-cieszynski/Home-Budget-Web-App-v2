@@ -86,10 +86,10 @@ class User extends \Core\Model
             $this->errors[] = 'email already taken';
         }
 
-        // Password
-         if ($this->password != $this->password_confirmation) {
-             $this->errors[] = 'Password must match confirmation';
-         }
+        // Password, dajemy jednak przycisk show
+        //  if ($this->password != $this->password_confirmation) {
+        //      $this->errors[] = 'Password must match confirmation';
+        //  }
 
         // Password - walidujemy tylko wtedy gdy jest wpisane - np. podczas edycji profilu nie musimy go walidować przecież..
         if (isset($this->password)) {
@@ -107,7 +107,7 @@ class User extends \Core\Model
             }
         }
     }
-
+    //do zapytania Ajax nie tworzymy jeszcze obiektu więc metoda musi być public static
      public static function emailExists($email)
     {
 

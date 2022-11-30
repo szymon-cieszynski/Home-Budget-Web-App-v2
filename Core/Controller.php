@@ -2,6 +2,9 @@
 
 namespace Core;
 
+use \App\Auth;
+use \App\Flash;
+
 /**
  * Base controller
  *
@@ -94,7 +97,7 @@ abstract class Controller
     {
         if (!Auth::getUser()) {
 
-            //Flash::addMessage('Please login to access that page', Flash::INFO);
+            Flash::addMessage('Please login to access that page', Flash::INFO);
 
             Auth::rememberRequestedPage();
 

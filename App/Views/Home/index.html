@@ -8,8 +8,9 @@
     <section class="pagedescription">
         <div class="container">
             <header>
-                {% if current_user %}
-                Hello {{ current_user.name }}.
+                {% if session.user_name %}
+
+                Hello {{ user_name.name }}.
 
                 {% else %}
                 <h1>Home Budget - WEB app</h1>

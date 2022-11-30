@@ -31,9 +31,8 @@ class Login extends \Core\Controller
             
             
         Auth::login($user/*, $remember_me*/);
-            $this->redirect('/');
-            /*Flash::addMessage('Login successful');
-            $this->redirect(Auth::getReturnToPage());*/
+            //Flash::addMessage('Login successful');
+            $this->redirect(Auth::getReturnToPage());
         } else {
            //Flash::addMessage('Login not successful, please try again', Flash::WARNING);
             View::renderTemplate('Login/new.html', [

@@ -25,7 +25,7 @@ class Auth
         session_regenerate_id(true); //generuje jeszcze jedno ID sesji by uniknąć ataku hakera który podrzuci nam swoje ID
 
         $_SESSION['user_id'] = $user->id;
-        $_SESSION['username'] = $user->username;
+        //$_SESSION['username'] = $user->username;
 
         /*if ($remember_me) {
 
@@ -68,8 +68,33 @@ class Auth
         //static::forgetLogin();
     }
 
-    public static function isLoggedIn()
+
+        /**
+     * Remember the originally-requested page in the session
+     *
+     * @return void
+     */
+    public static function rememberRequestedPage()
     {
-        return isset($_SESSION['user_id']);
+        $_SESSION['return_to'] = $_SERVER['REQUEST_URI'];
     }
+
+    /**
+     * Get the originally-requested page to return to after requiring login, or default to the homepage
+     *
+     * @return void
+     */
+    public static function getReturnToPage()
+    {
+        return $_SESSION['return_to'] ?? '/'; //if this value doesn't exist in session, redirect to the home page!
+    }
+
+    /*Get current user */
+    public static function getUser()
+    {
+        if (isset($_SESSION['user_id']))
+        {
+            return User::findById($_SESSION['user_id']);
+        }
+    } 
 }

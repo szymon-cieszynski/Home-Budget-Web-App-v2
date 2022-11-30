@@ -84,4 +84,22 @@ abstract class Controller
         exit;
     }
 
+        /**
+     * Require the user to be logged in before giving access to the requested page.
+     * Remember the requested page for later, then redirect to the login page.
+     *
+     * @return void
+     */
+    public function requireLogin()
+    {
+        if (!Auth::getUser()) {
+
+            //Flash::addMessage('Please login to access that page', Flash::INFO);
+
+            Auth::rememberRequestedPage();
+
+            $this->redirect('/login');
+        }
+    }
+
 }

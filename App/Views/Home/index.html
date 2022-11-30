@@ -8,9 +8,9 @@
     <section class="pagedescription">
         <div class="container">
             <header>
-                {% if is_logged_in %}
+                {% if current_user %}
 
-                Hello {{ session.username }}. Choose from navigation bar what do you want to do...
+                Hello {{ current_user.username }}! Choose from navigation bar what do you want to do...
 
                 {% else %}
                 <h1>Home Budget - WEB app</h1>

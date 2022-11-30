@@ -18,12 +18,9 @@ class Signup extends \Core\Controller
         $user = new User($_POST);
 
         if ($user->save()) {
-            //$user->sendActivationEmail();
-
-            header('Location: http://'.$_SERVER['HTTP_HOST'].'/signup/success', true, 303);
-            exit;
-            
+            //$user->sendActivationEmail();            
             $this->redirect('/signup/success');
+            
           } else {
             //wyswietli ten sam formularz dla new lecz z błędami jakie sie pojawiły
             View::renderTemplate('Signup/new.html', [

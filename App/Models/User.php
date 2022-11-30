@@ -136,4 +136,25 @@ class User extends \Core\Model
 
         return $stmt->fetch();
     }
+
+        /**
+     * Authenticate a user by email and password.
+     *
+     * @param string $email email address
+     * @param string $password password
+     *
+     * @return mixed  The user object or false if authentication fails
+     */
+    public static function authenticate($email, $password)
+    {
+        $user = static::findByEmail($email); //spr najpierw czy email istnieje
+
+        if ($user /*&& $user->is_active*/) {
+            if (password_verify($password, $user->password_hash)) {
+                return $user;
+            }
+        }
+
+        return false;
+    }
 }

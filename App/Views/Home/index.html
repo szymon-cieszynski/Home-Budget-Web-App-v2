@@ -8,7 +8,7 @@
     <section class="pagedescription">
         <div class="container">
             <header>
-                {% if session.username %}
+                {% if is_logged_in %}
 
                 Hello {{ session.username }}. Choose from navigation bar what do you want to do...
 

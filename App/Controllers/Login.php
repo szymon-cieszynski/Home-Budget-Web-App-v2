@@ -28,7 +28,7 @@ class Login extends \Core\Controller
 
         if ($user) {
             session_regenerate_id(true);
-            $_SESSION['user_name'] = $user->username;
+            $_SESSION['username'] = $user->username;
             $this->redirect('/');
             /*Auth::login($user, $remember_me);
             Flash::addMessage('Login successful');

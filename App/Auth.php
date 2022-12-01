@@ -20,20 +20,20 @@ class Auth
      *
      * @return void
      */
-    public static function login($user/*, $remember_me*/)
+    public static function login($user, $remember_me)
     {
         session_regenerate_id(true); //generuje jeszcze jedno ID sesji by uniknąć ataku hakera który podrzuci nam swoje ID
 
         $_SESSION['user_id'] = $user->id;
         //$_SESSION['username'] = $user->username;
 
-        /*if ($remember_me) {
+        if ($remember_me) {
 
             if ($user->rememberLogin()) {
 
                 setcookie('remember_me', $user->remember_token, $user->expiry_timestamp, '/');
             }
-        }*/
+        }
     }
 
 

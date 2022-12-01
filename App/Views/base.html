@@ -10,27 +10,54 @@
 </head>
 
 <body>
-
     <header>
+        {% if current_user %}
         <nav class="navbar navbar-dark bg-dark navbar-expand-md">
-            <a class="navbar-brand" href="index.php">Home Budget</a>
+            <a class="navbar-brand" href="/home/index">Home Budget</a>
 
+            <button class="navbar-toggler order-first" type="button" data-toggle="collapse" data-target="#mainmenu"
+                aria-controls="mainmenu" aria-expanded="false" aria-label="Navigation switch">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mainmenu">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="addIncome.php">Add income</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="addExpense.php">Add expense</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="balance.php">Balance review</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#">Settings</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Log out</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        {% else %}
+        <nav class="navbar navbar-dark bg-dark navbar-expand-md">
+            <a class="navbar-brand" href="/home/index">Home Budget</a>
             <button class="navbar-toggler order-first" type="button" data-toggle="collapse" data-target="#menu"
                 aria-controls="mainmenu" aria-expanded="false" aria-label="Navigation switch">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
             <div class="collapse navbar-collapse" id="menu">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="/signup/new">Sign Up!</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="login.php">Log in</a>
+                        <a class="nav-link" href="/login/new">Log in</a>
                     </li>
                 </ul>
             </div>
         </nav>
+        {% endif %}
     </header>
 
     <main>

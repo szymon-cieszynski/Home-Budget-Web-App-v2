@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use PDO;
+use \App\Token;
 
 /**
  * Example user model
@@ -135,5 +136,75 @@ class User extends \Core\Model
         $stmt->execute();
 
         return $stmt->fetch();
+    }
+
+        /**
+     * Authenticate a user by email and password.
+     *
+     * @param string $email email address
+     * @param string $password password
+     *
+     * @return mixed  The user object or false if authentication fails
+     */
+    public static function authenticate($email, $password)
+    {
+        $user = static::findByEmail($email); //spr najpierw czy email istnieje
+
+        if ($user /*&& $user->is_active*/) {
+            if (password_verify($password, $user->password_hash)) {
+                return $user;
+            }
+        }
+
+        return false;
+    }
+
+        /**
+     * Find a user model by ID
+     *
+     * @param string $id The user ID
+     *
+     * @return mixed User object if found, false otherwise
+     */
+    public static function findByID($id)
+    {
+        $sql = 'SELECT * FROM users WHERE id = :id';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+
+        $stmt->execute();
+
+        return $stmt->fetch();
+    }
+
+        /**
+     * Remember the login by inserting a new unique token into the remembered_logins table
+     * for this user record
+     *
+     * @return boolean  True if the login was remembered successfully, false otherwise
+     */
+    public function rememberLogin()
+    {
+        $token = new Token();
+        $hashed_token = $token->getHash();
+        $this->remember_token = $token->getValue();
+
+        $this->expiry_timestamp = time() + 60 * 60 * 24 * 30;  // 30 days from now ale mozna mzienic na inna 60 sek * 60 min * 24h * 30dni
+
+        $sql = 'INSERT INTO remembered_logins (token_hash, user_id, expires_at)
+                VALUES (:token_hash, :user_id, :expires_at)';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':token_hash', $hashed_token, PDO::PARAM_STR);
+        $stmt->bindValue(':user_id', $this->id, PDO::PARAM_INT);
+        $stmt->bindValue(':expires_at', date('Y-m-d H:i:s', $this->expiry_timestamp), PDO::PARAM_STR);
+
+        return $stmt->execute();
     }
 }

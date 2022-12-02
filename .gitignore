@@ -1,3 +1,5 @@
 vendor
-Config.php
+
 composer.lock
+
+Config.php

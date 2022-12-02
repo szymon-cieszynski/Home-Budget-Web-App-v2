@@ -1,0 +1,5 @@
+Hello! Home budget Web App password reset
+
+Please click the following link to reset your password:
+
+{{ url }}

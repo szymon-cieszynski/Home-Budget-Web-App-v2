@@ -47,20 +47,20 @@ class User extends \Core\Model
        {
         $password_hash = password_hash($this->password, PASSWORD_DEFAULT);
 
-        //$token = new Token();
-       // $hashed_token = $token->getHash();
-        //$this->activation_token = $token->getValue();
+        $token = new Token();
+        $hashed_token = $token->getHash();
+        $this->activation_token = $token->getValue();
 
-        $sql = 'INSERT INTO users (username, password_hash, email/*, activation_hash*/)
-                VALUES (:username, :password_hash, :email/*, :activation_hash*/)';
+        $sql = 'INSERT INTO users (username, password_hash, email, activation_hash)
+                VALUES (:username, :password_hash, :email, :activation_hash)';
 
         $db = static::getDB();
         $stmt = $db->prepare($sql);
 
-        $stmt->bindValue(':username', $this->name, PDO::PARAM_STR);
+        $stmt->bindValue(':username', $this->username, PDO::PARAM_STR);
         $stmt->bindValue(':email', $this->email, PDO::PARAM_STR);
         $stmt->bindValue(':password_hash', $password_hash, PDO::PARAM_STR);
-        //$stmt->bindValue(':activation_hash', $hashed_token, PDO::PARAM_STR);
+        $stmt->bindValue(':activation_hash', $hashed_token, PDO::PARAM_STR);
 
         return $stmt->execute();
        }
@@ -162,7 +162,7 @@ class User extends \Core\Model
     {
         $user = static::findByEmail($email); //spr najpierw czy email istnieje
 
-        if ($user /*&& $user->is_active*/) {
+        if ($user && $user->is_active) {
             if (password_verify($password, $user->password_hash)) {
                 return $user;
             }
@@ -353,5 +353,45 @@ class User extends \Core\Model
         }
 
         return false;
+    }
+
+    /**
+     * Send an email to the user containing the activation link
+     *
+     * @return void
+     */
+    public function sendActivationEmail()
+    {
+        $url = 'http://' . $_SERVER['HTTP_HOST'] . '/signup/activate/' . $this->activation_token;
+
+        $text = View::getTemplate('Signup/activation_email.txt', ['url' => $url]);
+        $html = View::getTemplate('Signup/activation_email.html', ['url' => $url]);
+
+        Mail::send($this->email, 'Account activation', $text, $html);
+    }
+
+        /**
+     * Activate the user account with the specified activation token
+     *
+     * @param string $value Activation token from the URL
+     *
+     * @return void
+     */
+    public static function activate($value)
+    {
+        $token = new Token($value); //value to token i pobiera z linka... i haszuje je i porównuje w bazie czy istnieje
+        $hashed_token = $token->getHash();
+
+        $sql = 'UPDATE users
+                SET is_active = 1,
+                    activation_hash = null
+                WHERE activation_hash = :hashed_token';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':hashed_token', $hashed_token, PDO::PARAM_STR);
+
+        $stmt->execute();
     }
 }

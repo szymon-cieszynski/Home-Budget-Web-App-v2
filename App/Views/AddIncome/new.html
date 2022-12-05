@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Income{% endblock %}
+
+{% block body %}
+
+<section class="addIncome">
+    <div class="container my-3">
+        <header>
+            <h1>Add income</h1>
+            <p>In this section you can add your incomes in different currencies, pick a date, category, and if
+                you want, leave a comment about this profit.</p>
+        </header>
+        <form action="/addIncome/new" method="post">
+            <div class="row">
+                <div class="col-sm-6 mb-4">
+                    <label>Amount:</label>
+                    <input type="number" id="income" name="income" min="0.01" max="1000000" step="0.01" required>
+                    <label>PLN</label>
+                </div>
+
+                <div class="col-sm-6 mb-4">
+                    <label for="date">Enter a date:</label>
+                    <input type="date" id="date" name="date" min="2022-01-01" required>
+                </div>
+
+                <div class="col-sm-12 mb-4">
+                    <label>Category:</label>
+                    <select id="category" name="category">
+                        <option value="">--Please choose an option--</option>
+                        <?php foreach ($user_categories as $category) {
+                                echo "<option value={$category['id']}> {$category['name']}</option>";
+                            } ?>
+                    </select>
+                </div>
+                <div class="col-sm-12 mb-4">
+                    <label for="comment">Comment:</label>
+                    <br>
+                    <textarea id="comment" name="comment" rows="2" cols="50"></textarea>
+                </div>
+                <div class="col-sm-12 my-1">
+                    <input type="submit" class="button" value="Add income">
+                    <input type="submit" class="button" value="Cancel">
+
+                    <br><br>
+                    <?php
+                        if (isset($_SESSION['income_added'])) {
+                            echo '<p><span style="color: green;">' . $_SESSION['income_added'] . '</span></p>';
+                            unset($_SESSION['income_added']);
+                        }
+                        ?>
+
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+{% endblock %}

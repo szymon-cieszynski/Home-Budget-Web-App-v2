@@ -18,6 +18,11 @@ class AddIncome extends \Core\Controller
     public function newAction()
     {
         View::renderTemplate('AddIncome/new.html');
+        
+        //$user_categories = User::getCategories();
+        //var_dump($user_categories);
+      
+        
     }
 
     public function createAction()

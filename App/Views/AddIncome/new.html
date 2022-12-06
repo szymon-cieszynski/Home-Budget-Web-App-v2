@@ -28,9 +28,12 @@
                     <label>Category:</label>
                     <select id="category" name="category">
                         <option value="">--Please choose an option--</option>
-                        <?php foreach ($user_categories as $category) {
+                        {% for category in category %}
+                        <option value={{category.id}}> {{category.name}}</option>
+                        {% endfor %}
+                        <!-- <?php foreach ($user_categories as $category) {
                                 echo "<option value={$category['id']}> {$category['name']}</option>";
-                            } ?>
+                            } ?> -->
                     </select>
                 </div>
                 <div class="col-sm-12 mb-4">
@@ -43,12 +46,12 @@
                     <input type="submit" class="button" value="Cancel">
 
                     <br><br>
-                    <?php
+                    <!-- <?php
                         if (isset($_SESSION['income_added'])) {
                             echo '<p><span style="color: green;">' . $_SESSION['income_added'] . '</span></p>';
                             unset($_SESSION['income_added']);
                         }
-                        ?>
+                        ?> -->
 
                 </div>
             </div>

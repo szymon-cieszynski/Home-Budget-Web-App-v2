@@ -6,6 +6,7 @@ use PDO;
 use \App\Token;
 use \App\Mail;
 use \Core\View;
+use \App\Auth;
 
 /**
  * Example user model
@@ -393,5 +394,23 @@ class User extends \Core\Model
         $stmt->bindValue(':hashed_token', $hashed_token, PDO::PARAM_STR);
 
         $stmt->execute();
+    }
+
+    public static function getCategories()
+    {
+        $user_id['id'] = Auth::getUser();
+        //$id = $user[id];
+        $sql = 'SELECT * FROM incomes_category_assigned_to_users WHERE user_id=:user_id';
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        //$stmt->bindValue(':user_id', $this->id, PDO::PARAM_INT);
+        $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+        $stmt->execute();
+        //$categories = $stmt->fetchAll();
+        //return $categories;
+        return $stmt->fetchAll();
+        
+
     }
 }

@@ -17,6 +17,8 @@ class AddIncome extends \Core\Controller
      */
     public function newAction()
     {
+        $this->requireLogin(); //require login to acces to this page!
+        
         View::renderTemplate('AddIncome/new.html');
         
         //$user_categories = User::getCategories();

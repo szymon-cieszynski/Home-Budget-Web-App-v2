@@ -10,7 +10,8 @@
             <header>
                 {% if current_user %}
 
-                Hello {{ current_user.username }}! Choose from navigation bar what do you want to do...
+                Hello {{ current_user.username }}, ID: {{ current_user.id }}! Choose from navigation bar what do you
+                want to do...
 
                 {% else %}
                 <h1>Home Budget - WEB app</h1>

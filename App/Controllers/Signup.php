@@ -18,6 +18,11 @@ class Signup extends \Core\Controller
         $user = new User($_POST);
 
         if ($user->save()) {
+            $user_id = User::getNewUserId();
+            User::copyIncomesCategories($user_id);
+            User::copyExpensesCategories($user_id);
+            User::copyPaymentMethods($user_id);
+            
             $user->sendActivationEmail();            
             $this->redirect('/signup/success');
             

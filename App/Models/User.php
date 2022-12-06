@@ -70,6 +70,56 @@ class User extends \Core\Model
         
     }
 
+    public static function getNewUserId()
+    {
+        $sql = 'SELECT id FROM users ORDER BY id DESC LIMIT 1';
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+        $user = $stmt->fetch();
+        return $user_id = $user['id'];
+    }
+
+    public static function copyIncomesCategories($user_id)
+    {
+        $sql = 'INSERT INTO incomes_category_assigned_to_users (name) SELECT name FROM incomes_category_default';
+        $db = static::getDB();
+        $db->exec($sql);
+
+        $sql = 'UPDATE incomes_category_assigned_to_users SET `user_id`= :user_id  ORDER BY id DESC LIMIT 4';
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT); 
+        $stmt->execute();
+    }
+
+    public static function copyExpensesCategories($user_id)
+    {
+        $sql = 'INSERT INTO expenses_category_assigned_to_users (name) SELECT name FROM expenses_category_default';
+        $db = static::getDB();
+        $db->exec($sql);
+
+        $sql = 'UPDATE expenses_category_assigned_to_users SET `user_id`= :user_id  ORDER BY id DESC LIMIT 16';
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT); 
+        $stmt->execute();
+    }
+
+
+    public static function copyPaymentMethods($user_id)
+    {
+        $sql = 'INSERT INTO payment_methods_assigned_to_users (name) SELECT name FROM payment_methods_default';
+        $db = static::getDB();
+        $db->exec($sql);
+
+        $sql = 'UPDATE payment_methods_assigned_to_users SET `user_id`= :user_id  ORDER BY id DESC LIMIT 3';
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT); 
+        $stmt->execute();
+    }
+
     /**
      * Validate current property values, adding valiation error messages to the errors array property
      *

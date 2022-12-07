@@ -39,7 +39,7 @@
     <div class="container my-3">
         <header>
             <h1>Add income</h1>
-            <p>In this section you can add your incomes in different currencies, pick a date, category, and if
+            <p>In this section you can add your incomes, so pick a date, category, and if
                 you want, leave a comment about this profit.</p>
             {% if incomes.errors is not empty %}
             <p>Errors:</p>
@@ -79,7 +79,7 @@
                 </div>
                 <div class="col-sm-12 my-1">
                     <input type="submit" class="button" value="Add income">
-                    <input type="submit" class="button" value="Cancel">
+                    <input class="button" type="button" onclick="window.location.replace('/')" value="Cancel">
                 </div>
             </div>
         </form>

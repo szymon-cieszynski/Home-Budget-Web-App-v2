@@ -70,6 +70,12 @@ class Expenses extends \Core\Model
         if ($this->category == '') {
             $this->errors[] = 'Choose category';
         }
+
+        //payment
+        if ($this->payment_method == '') {
+            $this->errors[] = 'Payment way is required';
+        }
+
         //comment
         if(strlen($this->comment)>100)
             $this->errors[] = 'Comment should be shorter than 100 chars';

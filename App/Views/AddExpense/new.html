@@ -19,7 +19,8 @@
                 category: 'required',
                 comment: {
                     maxlength: 100
-                }
+                }, payment_method: 'required'
+
             },
             messages: {
                 amount: {
@@ -39,7 +40,7 @@
     <div class="container my-3">
         <header>
             <h1>Add expense</h1>
-            <p>In this section you can add your expenses in different currencies, pick a date, category, and if
+            <p>In this section you can add your expenses, so pick a date, category, and if
                 you want, leave a comment about this expenditure</p>
             {% if expenses.errors is not empty %}
             <p>Errors:</p>
@@ -88,7 +89,8 @@
                 </div>
                 <div class="col-sm-12 my-1">
                     <input type="submit" class="button" value="Add expense">
-                    <input type="submit" class="button" value="Cancel">
+                    <input class="button" type="button" onclick="window.location.replace('/')" value="Cancel">
+                    <!-- <input type="submit" class="button" value="Cancel"> -->
                 </div>
             </div>
         </form>

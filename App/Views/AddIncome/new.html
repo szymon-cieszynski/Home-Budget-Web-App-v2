@@ -67,8 +67,8 @@
                     <label>Category:</label>
                     <select id="category" name="category">
                         <option value="">--Please choose an option--</option>
-                        {% for category in category %}
-                        <option value={{category.id}}> {{category.name}}</option>
+                        {% for income_cat in income_cat %}
+                        <option value={{income_cat.id}}> {{income_cat.name}}</option>
                         {% endfor %}
                     </select>
                 </div>

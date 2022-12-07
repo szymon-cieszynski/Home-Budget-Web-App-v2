@@ -64,20 +64,20 @@
                 </div>
 
                 <div class="col-sm-12">
-                    <label for="payment-method">Payment method:</label>
-                    <select name="payment-method" id="payment-method">
-                        {% for method in method %}
-                        <option value={{method.id}}> {{method.name}}</option>
+                    <label for="payment_method">Payment method:</label>
+                    <select name="payment_method" id="payment_method">
+                        {% for pay_method in pay_method %}
+                        <option value={{pay_method.id}}> {{pay_method.name}}</option>
                         {% endfor %}
                     </select>
                 </div>
 
                 <div class="col-sm-12 mb-4">
-                    <label>Category:</label>
+                    <label for="category">Category:</label>
                     <select id="category" name="category">
                         <option value="">--Please choose an option--</option>
-                        {% for category in category %}
-                        <option value={{category.id}}> {{category.name}}</option>
+                        {% for expense_cat in expense_cat %}
+                        <option value={{expense_cat.id}}> {{expense_cat.name}}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -87,7 +87,7 @@
                     <textarea id="comment" name="comment" rows="2" cols="50"></textarea>
                 </div>
                 <div class="col-sm-12 my-1">
-                    <input type="submit" class="button" value="Add income">
+                    <input type="submit" class="button" value="Add expense">
                     <input type="submit" class="button" value="Cancel">
                 </div>
             </div>

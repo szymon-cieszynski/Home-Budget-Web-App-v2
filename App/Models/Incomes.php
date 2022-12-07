@@ -17,7 +17,7 @@ class Incomes extends \Core\Model
      * Class constructor
      * @param array $data  Initial property values
      */
-    public function __construct($data = []) //konstruktor który tworzy uruchamia się podczas tworzenia obiektu w kontrolerze i przpyisuje mu dane
+    public function __construct($data = []) //during creating object, assign values from form
     {
         foreach ($data as $key => $value) {
             $this->$key = $value;
@@ -70,8 +70,7 @@ class Incomes extends \Core\Model
         }
         //comment
         if(strlen($this->comment)>100)
-        $this->errors[] = 'Comment should be shorter than 100 chars';
-
+            $this->errors[] = 'Comment should be shorter than 100 chars';
     }
   
 }

@@ -55,17 +55,22 @@ class Incomes extends \Core\Model
          //amount
          if ($this->amount == '') {
             $this->errors[] = 'Amount is required';
-        }
+        }else if((int)($this->amount>=1000000))
+        $this->errors[] = 'Amount sohuld be less than 1000000PLN';
 
         //date
         if ($this->date == '') {
             $this->errors[] = 'Date is required';
-        }
+        }/*else if((int)($this->date<wartosc))
+        $this->errors[] = 'Date should be after 01.01.2022';*/
 
         //category
         if ($this->category == '') {
             $this->errors[] = 'Choose category';
         }
+        //comment
+        if(strlen($this->comment)>100)
+        $this->errors[] = 'Comment should be shorter than 100 chars';
 
     }
   

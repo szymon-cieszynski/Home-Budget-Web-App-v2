@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Expense{% endblock %}
+{% block footer %}
+<script>
+    $(document).ready(function () {
+        $('#formAddExpense').validate({
+            errorClass: 'error',
+            rules: {
+                amount: {
+                    required: true,
+                    max: 1000000,
+                    min: "0.01"
+                },
+                date: {
+                    required: true,
+                    min: '2022-01-01'
+                },
+                category: 'required',
+                comment: {
+                    maxlength: 100
+                }
+            },
+            messages: {
+                amount: {
+                    max: 'Amount max. 1.000.000PLN',
+                    min: 'Amount min. 0.01PLN'
+                },
+                date: 'Date min. 2022-01-01',
+                comment: 'Please type max. 100 characters'
+            }
+        });
+    });
+</script>
+{% endblock %}
+{% block body %}
+
+<section class="addExpense">
+    <div class="container my-3">
+        <header>
+            <h1>Add expense</h1>
+            <p>In this section you can add your expenses in different currencies, pick a date, category, and if
+                you want, leave a comment about this expenditure</p>
+            {% if expenses.errors is not empty %}
+            <p>Errors:</p>
+            <ul>
+                {% for error in expenses.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </header>
+        <form action="/addExpense/create" method="post" id="formAddExpense">
+            <div class="row">
+                <div class="col-sm-6 mb-4">
+                    <label>Amount: PLN</label>
+                    <input type="number" id="amount" name="amount" step="0.01">
+                    <!-- <label>PLN</label> -->
+                </div>
+
+                <div class="col-sm-6 mb-4">
+                    <label for="date">Enter a date:</label>
+                    <input type="date" id="date" name="date">
+                </div>
+
+                <div class="col-sm-12">
+                    <label for="payment-method">Payment method:</label>
+                    <select name="payment-method" id="payment-method">
+                        {% for method in method %}
+                        <option value={{method.id}}> {{method.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-sm-12 mb-4">
+                    <label>Category:</label>
+                    <select id="category" name="category">
+                        <option value="">--Please choose an option--</option>
+                        {% for category in category %}
+                        <option value={{category.id}}> {{category.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-sm-12 mb-4">
+                    <label for="comment">Comment:</label>
+                    <br>
+                    <textarea id="comment" name="comment" rows="2" cols="50"></textarea>
+                </div>
+                <div class="col-sm-12 my-1">
+                    <input type="submit" class="button" value="Add income">
+                    <input type="submit" class="button" value="Cancel">
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+{% endblock %}

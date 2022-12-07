@@ -1,5 +1,5 @@
 <?php
-
+  
 namespace App;
 
 use App\Models\User;
@@ -26,7 +26,7 @@ class Auth
 
         $_SESSION['user_id'] = $user->id;
         //$_SESSION['username'] = $user->username;
-
+        
         if ($remember_me) {
 
             if ($user->rememberLogin()) {

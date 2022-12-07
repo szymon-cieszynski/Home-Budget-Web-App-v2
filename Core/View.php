@@ -60,6 +60,7 @@ class View
             //$twig->addGlobal('is_logged_in', \App\Auth::isLoggedIn()); juz nam nie potrzebna bo sprawdzamy metodą getUser
             $twig->addGlobal('current_user', \App\Auth::getUser());
             $twig->addGlobal('flash_messages', \App\Flash::getMessages());
+            $twig->addGlobal('category', \App\Models\User::getCategories());
         }
 
         return $twig->render($template, $args);

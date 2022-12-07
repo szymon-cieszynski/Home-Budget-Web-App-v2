@@ -6,6 +6,7 @@ use PDO;
 use \App\Token;
 use \App\Mail;
 use \Core\View;
+use \App\Auth;
 
 /**
  * Example user model
@@ -67,6 +68,56 @@ class User extends \Core\Model
 
        return false;
         
+    }
+
+    public static function getNewUserId()
+    {
+        $sql = 'SELECT id FROM users ORDER BY id DESC LIMIT 1';
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+        $user = $stmt->fetch();
+        return $user_id = $user['id'];
+    }
+
+    public static function copyIncomesCategories($user_id)
+    {
+        $sql = 'INSERT INTO incomes_category_assigned_to_users (name) SELECT name FROM incomes_category_default';
+        $db = static::getDB();
+        $db->exec($sql);
+
+        $sql = 'UPDATE incomes_category_assigned_to_users SET `user_id`= :user_id  ORDER BY id DESC LIMIT 4';
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT); 
+        $stmt->execute();
+    }
+
+    public static function copyExpensesCategories($user_id)
+    {
+        $sql = 'INSERT INTO expenses_category_assigned_to_users (name) SELECT name FROM expenses_category_default';
+        $db = static::getDB();
+        $db->exec($sql);
+
+        $sql = 'UPDATE expenses_category_assigned_to_users SET `user_id`= :user_id  ORDER BY id DESC LIMIT 16';
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT); 
+        $stmt->execute();
+    }
+
+
+    public static function copyPaymentMethods($user_id)
+    {
+        $sql = 'INSERT INTO payment_methods_assigned_to_users (name) SELECT name FROM payment_methods_default';
+        $db = static::getDB();
+        $db->exec($sql);
+
+        $sql = 'UPDATE payment_methods_assigned_to_users SET `user_id`= :user_id  ORDER BY id DESC LIMIT 3';
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT); 
+        $stmt->execute();
     }
 
     /**
@@ -393,5 +444,23 @@ class User extends \Core\Model
         $stmt->bindValue(':hashed_token', $hashed_token, PDO::PARAM_STR);
 
         $stmt->execute();
+    }
+
+    public static function getCategories()
+    {
+        $user_id['id'] = Auth::getUser();
+        //$id = $user[id];
+        $sql = 'SELECT * FROM incomes_category_assigned_to_users WHERE user_id=:user_id';
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        //$stmt->bindValue(':user_id', $this->id, PDO::PARAM_INT);
+        $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+        $stmt->execute();
+        //$categories = $stmt->fetchAll();
+        //return $categories;
+        return $stmt->fetchAll();
+        
+
     }
 }

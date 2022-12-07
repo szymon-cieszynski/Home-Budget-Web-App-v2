@@ -60,7 +60,9 @@ class View
             //$twig->addGlobal('is_logged_in', \App\Auth::isLoggedIn()); juz nam nie potrzebna bo sprawdzamy metodą getUser
             $twig->addGlobal('current_user', \App\Auth::getUser());
             $twig->addGlobal('flash_messages', \App\Flash::getMessages());
-            $twig->addGlobal('category', \App\Models\User::getCategories());
+            $twig->addGlobal('income_cat', \App\Models\Incomes::getIncomeCategories());
+            $twig->addGlobal('expense_cat', \App\Models\Expenses::getExpenseCategories()); 
+            $twig->addGlobal('pay_method', \App\Models\Expenses::getPaymentMethods());
         }
 
         return $twig->render($template, $args);

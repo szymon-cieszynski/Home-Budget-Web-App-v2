@@ -7,8 +7,6 @@ use App\Models\RememberedLogin;
 
 /**
  * Authentication
- *
- * PHP version 7.0
  */
 class Auth
 {

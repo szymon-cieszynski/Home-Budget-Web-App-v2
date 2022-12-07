@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 
-{% block title %}Add Income{% endblock %}
+{% block title %}Add Expense{% endblock %}
 {% block footer %}
 <script>
     $(document).ready(function () {
-        $('#formAddIncome').validate({
+        $('#formAddExpense').validate({
             errorClass: 'error',
             rules: {
                 amount: {
@@ -19,7 +19,8 @@
                 category: 'required',
                 comment: {
                     maxlength: 100
-                }
+                }, payment_method: 'required'
+
             },
             messages: {
                 amount: {
@@ -35,22 +36,22 @@
 {% endblock %}
 {% block body %}
 
-<section class="addIncome">
+<section class="addExpense">
     <div class="container my-3">
         <header>
-            <h1>Add income</h1>
-            <p>In this section you can add your incomes, so pick a date, category, and if
-                you want, leave a comment about this profit.</p>
-            {% if incomes.errors is not empty %}
+            <h1>Add expense</h1>
+            <p>In this section you can add your expenses, so pick a date, category, and if
+                you want, leave a comment about this expenditure</p>
+            {% if expenses.errors is not empty %}
             <p>Errors:</p>
             <ul>
-                {% for error in incomes.errors %}
+                {% for error in expenses.errors %}
                 <li>{{ error }}</li>
                 {% endfor %}
             </ul>
             {% endif %}
         </header>
-        <form action="/addIncome/create" method="post" id="formAddIncome">
+        <form action="/addExpense/create" method="post" id="formAddExpense">
             <div class="row">
                 <div class="col-sm-6 mb-4">
                     <label>Amount: PLN</label>
@@ -63,12 +64,21 @@
                     <input type="date" id="date" name="date">
                 </div>
 
+                <div class="col-sm-12">
+                    <label for="payment_method">Payment method:</label>
+                    <select name="payment_method" id="payment_method">
+                        {% for pay_method in pay_method %}
+                        <option value={{pay_method.id}}> {{pay_method.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
                 <div class="col-sm-12 mb-4">
-                    <label>Category:</label>
+                    <label for="category">Category:</label>
                     <select id="category" name="category">
                         <option value="">--Please choose an option--</option>
-                        {% for income_cat in income_cat %}
-                        <option value={{income_cat.id}}> {{income_cat.name}}</option>
+                        {% for expense_cat in expense_cat %}
+                        <option value={{expense_cat.id}}> {{expense_cat.name}}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -78,8 +88,9 @@
                     <textarea id="comment" name="comment" rows="2" cols="50"></textarea>
                 </div>
                 <div class="col-sm-12 my-1">
-                    <input type="submit" class="button" value="Add income">
+                    <input type="submit" class="button" value="Add expense">
                     <input class="button" type="button" onclick="window.location.replace('/')" value="Cancel">
+                    <!-- <input type="submit" class="button" value="Cancel"> -->
                 </div>
             </div>
         </form>

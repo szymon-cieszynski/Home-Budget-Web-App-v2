@@ -40,6 +40,13 @@ class Balance extends \Core\Controller
             $user_incomes = Incomes::incomesBalance($user_id, $minDate, $maxDate);
             $user_expenses = Expenses::expensesBalance($user_id, $minDate, $maxDate);
 
+            View::renderTemplate('Balance/balance.html',[
+                'user' => $_SESSION['user_id'],
+                'user_incomes' => $user_incomes,
+                'user_expenses' => $user_expenses 
+
+            ]);
+
         }
 
         

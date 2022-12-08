@@ -10,8 +10,8 @@ class Dates {
     {
         if ($period == 'currentM') {
 
-            $leapyear = isLeapYear($current_year);
-            $last_day = checkDaysOfMonth($leapyear, $currentMonth);
+            $leapyear = static::isLeapYear($current_year);
+            $last_day = static::checkDaysOfMonth($leapyear, $currentMonth);
 
             $minDate = $current_year . '-' . $currentMonth . '-' . '01';
             $maxDate = $current_year . '-' . $currentMonth . '-' . $last_day;

@@ -42,23 +42,44 @@
                         <input type="date" name="end" min="2010-01-01">
                     </div>
 
-                    <?php
-                    if (isset($_SESSION['error_date'])) {
-                        echo '<div class="error">' . $_SESSION['error_date'] . '</div>';
-                        unset($_SESSION['error_date']);
-                    }
-                    ?>
                     <br>
                     <input type="submit" class="button" value="Show balance">
                     <br><br>
                 </form>
             </div>
+
+            {% if user_incomes is not null or user_expenses is not null %}
+            <div class="col-sm-6 mb-4">
+                <h2 class="h4">Incomes</h2>
+                <table class="table table-bordered table-sm">
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Sum</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user_incomes in user_incomes %}
+                        <tr>
+                            <td>{{ user_incomes.name }}</td>
+                            <td>{{ user_incomes.sumOfIncome }}</td>
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+
+                {% else %}
+
+                {% endif %}
+
+            </div>
+
+
+
+            </form>
         </div>
-
-
-
-        </form>
-    </div>
 </section>
 
 {% endblock %}

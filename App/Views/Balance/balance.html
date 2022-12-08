@@ -49,6 +49,7 @@
             </div>
 
             {% if user_incomes is not null or user_expenses is not null %}
+            <span>Start date: {{min_date}} </span><span>End date: {{max_date}}</span>
             <div class="col-sm-6 mb-4">
                 <h2 class="h4">Incomes</h2>
                 <table class="table table-bordered table-sm">
@@ -64,22 +65,39 @@
                             <td>{{ user_incomes.name }}</td>
                             <td>{{ user_incomes.sumOfIncome }}</td>
                         </tr>
-
                         {% endfor %}
 
                     </tbody>
                 </table>
+            </div>
+            <div class="col-sm-6 mb-4">
+                <h2 class="h4">Expenses</h2>
+                <table class="table table-bordered table-sm">
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Sum</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user_expenses in user_expenses %}
+                        <tr>
+                            <td>{{ user_expenses.name }}</td>
+                            <td>{{ user_expenses.sumOfExpense }}</td>
+                        </tr>
+                        {% endfor %}
 
-                {% else %}
-
-                {% endif %}
-
+                    </tbody>
+                </table>
             </div>
 
 
 
-            </form>
+            {% endif %}
+
         </div>
+    </div>
+    </div>
 </section>
 
 {% endblock %}

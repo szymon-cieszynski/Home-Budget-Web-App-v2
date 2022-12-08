@@ -43,7 +43,9 @@ class Balance extends \Core\Controller
             View::renderTemplate('Balance/balance.html',[
                 'user' => $_SESSION['user_id'],
                 'user_incomes' => $user_incomes,
-                'user_expenses' => $user_expenses 
+                'user_expenses' => $user_expenses, 
+                'min_date' => $minDate,
+                'max_date' => $maxDate,
 
             ]);
 

@@ -30,8 +30,8 @@ class Dates {
                 $previousMonth = (int)$currentMonth - 1;
             }
 
-            $leapyear = isLeapYear($current_year);
-            $last_day = checkDaysOfMonth($leapyear, $previousMonth);
+            $leapyear = static::isLeapYear($current_year);
+            $last_day = static::checkDaysOfMonth($leapyear, $previousMonth);
 
             $minDate = $current_year . '-' . $previousMonth . '-' . '01';
             $maxDate = $current_year . '-' . $previousMonth . '-' . $last_day;
@@ -58,7 +58,7 @@ class Dates {
         return $range;
     }
 
-    function checkDaysOfMonth($leapyear, $current_month)
+    private static function checkDaysOfMonth($leapyear, $current_month)
     {
         if ($current_month == 4 || $current_month == 6 || $current_month == 9 || $current_month == 11) {
             return $days = 30;
@@ -72,7 +72,7 @@ class Dates {
             return $days = 31;
     }
 
-    function isLeapYear($current_year)
+    private static function isLeapYear($current_year)
     {
         $leapyear = ($current_year % 4 == 0 && $current_year % 100 != 0) || ($current_year % 400 == 0);
         if ($leapyear == true) {

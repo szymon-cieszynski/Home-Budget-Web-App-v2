@@ -3,10 +3,11 @@
 namespace App\Controllers;
 
 use \Core\View;
-use \App\Models\User;
 use \App\Flash;
+use \App\Models\Incomes;
 use \App\Models\Expenses;
 use \App\Auth;
+use \App\Dates;
 
 /**
  * Balance controller
@@ -14,7 +15,7 @@ use \App\Auth;
 class Balance extends \Core\Controller
 {
     /**
-     * Show the add expense page
+     * Show the expense page
      */
     public function newAction()
     {
@@ -26,15 +27,18 @@ class Balance extends \Core\Controller
     public function createAction()
     {
         if (isset($_POST['period'])){
-            $user_id = $_SESSION['logged_id'];
+            $user_id = $_SESSION['user_id']; ;
             $period = $_POST['period'];
             $current_month = date('m');
             $current_year = date('Y');
 
-            $range = Dates::getMinMaxDate($period, $current_month, $current_year); //function in another file operationOnDates.php
+            $range = Dates::getMinMaxDate($period, $current_month, $current_year);
 
             $minDate = $range['minDate'];
             $maxDate = $range['maxDate'];
+
+            $user_incomes = Incomes::incomesBalance($user_id, $minDate, $maxDate);
+            $user_expenses = Expenses::expensesBalance($user_id, $minDate, $maxDate);
 
         }
 

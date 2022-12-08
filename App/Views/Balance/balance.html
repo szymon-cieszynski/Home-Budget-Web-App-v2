@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}Balance review{% endblock %}
+{% block footer %}
+<script>
+    $(document).ready(function () {
+        $('#formAddExpense').validate({
+            errorClass: 'error',
+            rules: {
+                amount: {
+                    required: true,
+                    max: 1000000,
+                    min: "0.01"
+                },
+                date: {
+                    required: true,
+                    min: '2022-01-01'
+                },
+                category: 'required',
+                comment: {
+                    maxlength: 100
+                }, payment_method: 'required'
+
+            },
+            messages: {
+                amount: {
+                    max: 'Amount max. 1.000.000PLN',
+                    min: 'Amount min. 0.01PLN'
+                },
+                date: 'Date min. 2022-01-01',
+                comment: 'Please type max. 100 characters'
+            }
+        });
+    });
+</script>
+{% endblock %}
+{% block body %}
+
+<section class="balance">
+    <div class="container my-3">
+        <header>
+
+        </header>
+        <form action="/balance/create" method="post" id="formBalance">
+
+        </form>
+    </div>
+</section>
+
+{% endblock %}

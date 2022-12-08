@@ -1,47 +1,61 @@
 {% extends 'base.html' %}
 
 {% block title %}Balance review{% endblock %}
+
 {% block footer %}
 <script>
-    $(document).ready(function () {
-        $('#formAddExpense').validate({
-            errorClass: 'error',
-            rules: {
-                amount: {
-                    required: true,
-                    max: 1000000,
-                    min: "0.01"
-                },
-                date: {
-                    required: true,
-                    min: '2022-01-01'
-                },
-                category: 'required',
-                comment: {
-                    maxlength: 100
-                }, payment_method: 'required'
+    const el = document.getElementById('period');
+    const box = document.getElementById('hidden');
 
-            },
-            messages: {
-                amount: {
-                    max: 'Amount max. 1.000.000PLN',
-                    min: 'Amount min. 0.01PLN'
-                },
-                date: 'Date min. 2022-01-01',
-                comment: 'Please type max. 100 characters'
-            }
-        });
+    el.addEventListener('change', function handleChange(event) {
+        if (event.target.value === 'custom') {
+            box.style.visibility = 'visible';
+        } else {
+            box.style.visibility = 'hidden';
+        }
     });
 </script>
 {% endblock %}
-{% block body %}
 
+{% block body %}
 <section class="balance">
     <div class="container my-3">
         <header>
-
+            <h1>Balance review</h1>
+            <p>Check balance (incomes, expenses) from selected time period</p>
         </header>
-        <form action="/balance/create" method="post" id="formBalance">
+        <div class="row">
+            <div class="col-sm-12 mb-4">
+                <form action="/balance/create" method="post" id="formBalance"><label for="period">Balance from which
+                        time period do you want to see?</label>
+                    <select name="period" id="period">
+                        <option value="prevM">Previous month</option>
+                        <option value="currentM" selected>Current month </option>
+                        <option value="year">This year</option>
+                        <option value="custom">Select period</option>
+                    </select>
+                    <br>
+                    <div id="hidden">
+                        <label for="start">Date from:</label>
+                        <input type="date" name="start" min="2010-01-01">
+                        <label for="end">Date to:</label>
+                        <input type="date" name="end" min="2010-01-01">
+                    </div>
+
+                    <?php
+                    if (isset($_SESSION['error_date'])) {
+                        echo '<div class="error">' . $_SESSION['error_date'] . '</div>';
+                        unset($_SESSION['error_date']);
+                    }
+                    ?>
+                    <br>
+                    <input type="submit" class="button" value="Show balance">
+                    <br><br>
+                </form>
+            </div>
+        </div>
+
+
 
         </form>
     </div>

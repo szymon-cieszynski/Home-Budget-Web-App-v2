@@ -81,9 +81,9 @@ class Expenses extends \Core\Model
             $this->errors[] = 'Comment should be shorter than 100 chars';
     }
 
-    public static function getExpenseCategories()
+    public static function getExpenseCategories($user_id)
     {
-        $user_id['id'] = Auth::getUser();
+        //$user_id = $_SESSION['user_id'];
         //$id = $user[id];
         $sql = 'SELECT * FROM expenses_category_assigned_to_users WHERE user_id=:user_id';
         $db = static::getDB();
@@ -97,9 +97,9 @@ class Expenses extends \Core\Model
         return $stmt->fetchAll();
     }
 
-    public static function getPaymentMethods()
+    public static function getPaymentMethods($user_id)
     {
-        $user_id['id'] = Auth::getUser();
+        //$user_id = $_SESSION['user_id']; 
         //$id = $user[id];
         $sql = 'SELECT * FROM payment_methods_assigned_to_users WHERE user_id=:user_id';
         $db = static::getDB();

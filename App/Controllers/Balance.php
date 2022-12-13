@@ -39,6 +39,10 @@ class Balance extends \Core\Controller
 
             $user_incomes = Incomes::incomesBalance($user_id, $minDate, $maxDate);
             $user_expenses = Expenses::expensesBalance($user_id, $minDate, $maxDate);
+            $_SESSION['user_incomes'] = $user_incomes;
+            $dataPointsIncomes = Incomes::getdataPointsIncomes($user_incomes);
+            //$_SESSION['dataPointsIncomes'] = $dataPointsIncomes;
+            var_dump($dataPointsIncomes);
 
             View::renderTemplate('Balance/balance.html',[
                 'user' => $_SESSION['user_id'],
@@ -46,11 +50,12 @@ class Balance extends \Core\Controller
                 'user_expenses' => $user_expenses, 
                 'min_date' => $minDate,
                 'max_date' => $maxDate,
+                //'error_date' => $_SESSION['error_date'],
+                'dataPointsIncomes' => $dataPointsIncomes
 
             ]);
 
-        }
-
-        
+        }       
     }
+
 }

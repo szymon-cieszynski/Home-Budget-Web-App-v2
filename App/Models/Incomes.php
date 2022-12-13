@@ -73,11 +73,11 @@ class Incomes extends \Core\Model
             $this->errors[] = 'Comment should be shorter than 100 chars';
     }
 
-    public static function getIncomeCategories()
+    public static function getIncomeCategories($user_id)
     {
-        $user_id['id'] = Auth::getUser();
+        //$user_id = $_SESSION['user_id']; 
         //$id = $user[id];
-        $sql = 'SELECT * FROM incomes_category_assigned_to_users WHERE user_id=:user_id';
+        $sql = 'SELECT * FROM incomes_category_assigned_to_users WHERE `user_id`=:user_id';
         $db = static::getDB();
         $stmt = $db->prepare($sql);
 
@@ -105,12 +105,16 @@ class Incomes extends \Core\Model
         $stmt->execute();
 
         return $stmt->fetchAll();
-
-        // $dataPointsIncomes = array();
-        // foreach ($user_incomes as $income) {
-        //     $dataPointsIncomes[] = array("label" => $income['name'], "y" => $income['sumOfIncome']);
-        // }
-
     }
+
+    public static function getdataPointsIncomes($user_incomes){
+        
+        $dataPointsIncomes = array();
+        foreach ($user_incomes as $income) {
+            $dataPointsIncomes[] = array("label" => $income['name'], "y" => $income['sumOfIncome']);
+        }
+        return $dataPointsIncomes;
+    }
+    
   
 }

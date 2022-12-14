@@ -138,4 +138,13 @@ class Expenses extends \Core\Model
         }
         return $dataPointsExpenses;
     }
+
+    public static function getSumOfExpenses($user_expenses){
+        $sumExpenses = 0;
+        foreach ($user_expenses as $expense) {
+            $sumExpenses += $expense['sumOfExpense'];
+        }
+
+        return number_format($sumExpenses, 2, '.', '');
+    }
 }

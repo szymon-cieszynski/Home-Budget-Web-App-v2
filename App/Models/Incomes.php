@@ -115,6 +115,15 @@ class Incomes extends \Core\Model
         }
         return $dataPointsIncomes;
     }
+
+    public static function getSumOfIncomes($user_incomes){
+        $sumIncomes = 0;
+        foreach ($user_incomes as $income) {
+            $sumIncomes += $income['sumOfIncome'];
+        }
+
+        return number_format($sumIncomes, 2, '.', '');
+    }
     
   
 }

@@ -109,18 +109,23 @@
                 <thead>
                     <tr>
                         <th>Category</th>
-                        <th>Sum</th>
+                        <th>Sum [PLN]</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for user_incomes in user_incomes %}
+                    {% for incomes in user_incomes %}
                     <tr>
-                        <td>{{ user_incomes.name }}</td>
-                        <td>{{ user_incomes.sumOfIncome }}</td>
+                        <td>{{ incomes.name }}</td>
+                        <td>{{ incomes.sumOfIncome }}</td>
                     </tr>
                     {% endfor %}
-
                 </tbody>
+                <tfoot>
+                    <tr>
+                        <td style="font-weight: bold;">Total</td>
+                        <td style="font-weight: bold;">{{ sumIncomes }}</td>
+                    </tr>
+                </tfoot>
             </table>
             <div id="chartContainerIncomes" style="height: 370px; width: 100%;"></div>
             <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
@@ -131,7 +136,7 @@
                 <thead>
                     <tr>
                         <th>Category</th>
-                        <th>Sum</th>
+                        <th>Sum [PLN]</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -141,8 +146,13 @@
                         <td>{{ user_expenses.sumOfExpense }}</td>
                     </tr>
                     {% endfor %}
-
                 </tbody>
+                <tfoot>
+                    <tr>
+                        <td style="font-weight: bold;">Total</td>
+                        <td style="font-weight: bold;">{{ sumExpenses }}</td>
+                    </tr>
+                </tfoot>
             </table>
             <div id="chartContainerExpenses" style="height: 370px; width: 100%;"></div>
             <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>

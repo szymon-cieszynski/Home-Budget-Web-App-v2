@@ -42,7 +42,10 @@ class Balance extends \Core\Controller
             $_SESSION['user_incomes'] = $user_incomes;
             $dataPointsIncomes = Incomes::getdataPointsIncomes($user_incomes);
             $dataPointsExpenses = Expenses::getdataPointsExpenses($user_expenses);
-            //$_SESSION['dataPointsIncomes'] = $dataPointsIncomes;
+
+            $sumIncomes = Incomes::getSumOfIncomes($user_incomes);
+            $sumExpenses = Expenses::getSumOfExpenses($user_expenses);
+            
             //var_dump($dataPointsIncomes);
 
             View::renderTemplate('Balance/balance.html',[
@@ -51,9 +54,10 @@ class Balance extends \Core\Controller
                 'user_expenses' => $user_expenses, 
                 'min_date' => $minDate,
                 'max_date' => $maxDate,
-                //'error_date' => $_SESSION['error_date'],
                 'dataPointsIncomes' => $dataPointsIncomes,
-                'dataPointsExpenses' => $dataPointsExpenses
+                'dataPointsExpenses' => $dataPointsExpenses,
+                'sumIncomes' => $sumIncomes,
+                'sumExpenses' => $sumExpenses
 
             ]);
 

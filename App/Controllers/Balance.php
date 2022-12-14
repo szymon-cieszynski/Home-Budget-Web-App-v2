@@ -54,6 +54,7 @@ class Balance extends \Core\Controller
                 'user_expenses' => $user_expenses, 
                 'min_date' => $minDate,
                 'max_date' => $maxDate,
+                //'error_date' => $_SESSION['error_date'],
                 'dataPointsIncomes' => $dataPointsIncomes,
                 'dataPointsExpenses' => $dataPointsExpenses,
                 'sumIncomes' => $sumIncomes,

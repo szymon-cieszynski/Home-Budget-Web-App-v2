@@ -16,12 +16,11 @@
     font-size: 120%;
 } */
 
-table,
+/* table,
 th,
 td {
-    border: 1px solid black;
-    width: 50%;
-}
+    border: 10px solid rgb(156, 50, 50);
+}*/
 
 /* tfoot {
     font-weight: bold;

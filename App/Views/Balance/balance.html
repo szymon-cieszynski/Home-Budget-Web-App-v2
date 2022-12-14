@@ -4,6 +4,7 @@
 
 
 {% block footer %}
+<script src="/js/app.js"></script>
 <script>
     const select = document.getElementById('period');
     // const box = document.getElementById('hidden');
@@ -62,6 +63,11 @@
 {% endblock %}
 
 {% block body %}
+<style>
+    /* table {
+        border: 40px solid rgb(8, 8, 8);
+    }*/
+</style>
 <section class="balance">
     <div class="container my-3">
         <header>
@@ -69,7 +75,7 @@
             <p>Check balance (incomes, expenses) from selected time period</p>
         </header>
         <div class="row g-2">
-            <div class="col-sm-12 mb-4">
+            <div class="col-sm-6 mb-4">
                 <form action="/balance/create" method="post" id="formBalance">
                     <div class="form-group">
                         <label for="period">Balance from which time period do you want to see?</label>
@@ -92,75 +98,99 @@
 
                         </div>
                         {% if error_date %}
-                        {{ error_date }}
+                        <span style="color: red">{{ error_date }}</span>
                         {% endif %}
                         <br>
                         <input type="submit" class="button" value="Show balance">
                         <br><br>
+                    </div>
                 </form>
             </div>
-        </div>
 
-        {% if user_incomes is not null or user_expenses is not null %}
-        <span>Start date: {{min_date}} </span><span>End date: {{max_date}}</span>
-        <div class="col-sm-6 mb-4">
-            <h2 class="h4">Incomes</h2>
-            <table class="table table-bordered table-sm">
-                <thead>
-                    <tr>
-                        <th>Category</th>
-                        <th>Sum [PLN]</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for incomes in user_incomes %}
-                    <tr>
-                        <td>{{ incomes.name }}</td>
-                        <td>{{ incomes.sumOfIncome }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td style="font-weight: bold;">Total</td>
-                        <td style="font-weight: bold;">{{ sumIncomes }}</td>
-                    </tr>
-                </tfoot>
-            </table>
-            <div id="chartContainerIncomes" style="height: 370px; width: 100%;"></div>
-            <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-        </div>
-        <div class="col-sm-6 mb-4">
-            <h2 class="h4">Expenses</h2>
-            <table class="table table-bordered table-sm">
-                <thead>
-                    <tr>
-                        <th>Category</th>
-                        <th>Sum [PLN]</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for user_expenses in user_expenses %}
-                    <tr>
-                        <td>{{ user_expenses.name }}</td>
-                        <td>{{ user_expenses.sumOfExpense }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td style="font-weight: bold;">Total</td>
-                        <td style="font-weight: bold;">{{ sumExpenses }}</td>
-                    </tr>
-                </tfoot>
-            </table>
-            <div id="chartContainerExpenses" style="height: 370px; width: 100%;"></div>
-            <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-        </div>
-        {% endif %}
+            {% if min_date and max_date %}
+            <h6>Start date: {{min_date}} </h6>
+            <h6>End date: {{max_date}}</h6>
+            {% else %}
+            <h6>Start date: not selected </h6>
+            <h6>End date: not selected </h6>
+            {% endif %}
 
+            {% if error_date==null and user_incomes is not null or user_expenses is not null %}
+            <div class="col-sm-6 mb-4 p-4">
+                <h2 class="h4">Incomes</h2>
+                <table class="table table-bordered table-sm table-hover border border-5">
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Sum [PLN]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for incomes in user_incomes %}
+                        <tr>
+                            <td>{{ incomes.name }}</td>
+                            <td>{{ incomes.sumOfIncome }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td style="font-weight: bold;">Total</td>
+                            <td style="font-weight: bold;">{{ sumIncomes }}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+                {% if user_incomes is not empty %}
+                <div id="chartContainerIncomes" style="height: 370px; width: 100%;"></div>
+                <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+                {% else %}
+                <h4><span style="color: green">You have no incomes in selected period!</span></h4>
+                {% endif %}
+            </div>
+
+            <div class="col-sm-6 mb-4 p-4">
+                <h2 class="h4">Expenses</h2>
+                <table class="table table-bordered table-sm table-hover border border-5">
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Sum [PLN]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user_expenses in user_expenses %}
+                        <tr>
+                            <td>{{ user_expenses.name }}</td>
+                            <td>{{ user_expenses.sumOfExpense }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td style="font-weight: bold;">Total</td>
+                            <td style="font-weight: bold;">{{ sumExpenses }}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+                {% if user_expenses is not empty %}
+                <div id="chartContainerExpenses" style="height: 370px; width: 100%;"></div>
+                <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+                {% else %}
+                <h4><span style="color: green">You have no expenses in selected period!</span></h4>
+                {% endif %}
+            </div>
+            <div class="row">
+                {% if sumExpenses < sumIncomes %} <h4><span style="color: green;"">Difference between incomes and expenses:  {{sumIncomes - sumExpenses}} PLN </span></h4>
+                {% else %}
+                <h4><span style=" color: red;"">Difference between incomes and expenses: {{sumIncomes - sumExpenses}}
+                        PLN
+                    </span></h4>
+                    {% endif %}
+            </div>
+            {% endif %}
+        </div>
     </div>
-    </div>
+
 
 </section>
 

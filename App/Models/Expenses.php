@@ -129,4 +129,13 @@ class Expenses extends \Core\Model
 
         return $stmt->fetchAll();
     }
+
+    public static function getdataPointsExpenses($user_expenses){
+        
+        $dataPointsExpenses = array();
+        foreach ($user_expenses as $expense) {
+            $dataPointsExpenses[] = array("label" => $expense['name'], "y" => $expense['sumOfExpense']);
+        }
+        return $dataPointsExpenses;
+    }
 }

@@ -2,6 +2,65 @@
 
 {% block title %}Balance review{% endblock %}
 
+
+{% block footer %}
+<script>
+    const select = document.getElementById('period');
+    // const box = document.getElementById('hidden');
+
+    select.addEventListener('change', function handleChange(event) {
+        if (event.target.value === 'custom') {
+            document.getElementById("customDiv").hidden = false;
+            // box.style.visibility = 'visible';
+        } else {
+            document.getElementById("customDiv").hidden = true;
+            // box.style.visibility = 'hidden';
+        }
+    });
+
+    //chart Incomes:
+    window.onload = function () {
+        var chart = new CanvasJS.Chart("chartContainerIncomes", {
+            animationEnabled: true,
+            title: {
+                text: "Incomes pie chart"
+            },
+            subtitles: [{
+                text: ""
+            }],
+            data: [{
+                type: "pie",
+                yValueFormatString: "#,##0.00\"PLN\"",
+                indexLabel: "{label} ({y})",
+                //dataPoints: <? php echo json_encode($_SESSION['dataPointsIncomes'], JSON_NUMERIC_CHECK); ?>
+                //dataPoints: "{{ array|json_encode(dataPointsIncomes and constant('JSON_PRETTY_PRINT')) }}"
+                //dataPoints: "{{ data|json_encode(dataPointsIncomes and constant('JSON_NUMERIC_CHECK')) }}"
+                dataPoints: {{ dataPointsIncomes| json_encode | raw }}
+        }]
+    });
+    chart.render();
+
+    //chart Expenses:
+    var chart = new CanvasJS.Chart("chartContainerExpenses", {
+        animationEnabled: true,
+        title: {
+            text: "Expenses pie chart"
+        },
+        subtitles: [{
+            text: ""
+        }],
+        data: [{
+            type: "pie",
+            yValueFormatString: "#,##0.00\"PLN\"",
+            indexLabel: "{label} ({y})",
+            dataPoints: {{ dataPointsExpenses| json_encode | raw }}
+        }]
+    });
+    chart.render();
+}
+</script>
+{% endblock %}
+
 {% block body %}
 <section class="balance">
     <div class="container my-3">
@@ -85,6 +144,8 @@
 
                 </tbody>
             </table>
+            <div id="chartContainerExpenses" style="height: 370px; width: 100%;"></div>
+            <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
         </div>
         {% endif %}
 
@@ -93,57 +154,4 @@
 
 </section>
 
-{% endblock %}
-
-{% block footer %}
-<!-- dataPointsIncomes = array(
-array("label"=>"Chrome", "y"=>64.02),
-array("label"=>"Firefox", "y"=>12.55),
-array("label"=>"IE", "y"=>8.47),
-array("label"=>"Safari", "y"=>6.08),
-array("label"=>"Edge", "y"=>4.29),
-array("label"=>"Others", "y"=>4.59)) -->
-
-<!-- {% for incomes in user_incomes %}
-{dataPointsIncomes[]=array("label"=>incomes.name, "y"=>incomes.sumOfIncome)}
-{% endfor %} -->
-<script>
-    const select = document.getElementById('period');
-    // const box = document.getElementById('hidden');
-
-    select.addEventListener('change', function handleChange(event) {
-        if (event.target.value === 'custom') {
-            document.getElementById("customDiv").hidden = false;
-            // box.style.visibility = 'visible';
-        } else {
-            document.getElementById("customDiv").hidden = true;
-            // box.style.visibility = 'hidden';
-        }
-    });
-
-    //chart Incomes:
-    window.onload = function () {
-        var chart = new CanvasJS.Chart("chartContainerIncomes", {
-            animationEnabled: true,
-            title: {
-                text: ""
-            },
-            subtitles: [{
-                text: ""
-            }],
-            data: [{
-                type: "pie",
-                yValueFormatString: "#,##0.00\"PLN\"",
-                indexLabel: "{label} ({y})",
-                //dataPoints: <? php echo json_encode($_SESSION['dataPointsIncomes'], JSON_NUMERIC_CHECK); ?>
-                //dataPoints: "{{ array|json_encode(dataPointsIncomes and constant('JSON_PRETTY_PRINT')) }}"
-
-                dataPoints: "{{ data|json_encode(dataPointsIncomes and constant('JSON_NUMERIC_CHECK')) }}"
-
-            }]
-        });
-        chart.render();
-    }
-
-</script>
 {% endblock %}

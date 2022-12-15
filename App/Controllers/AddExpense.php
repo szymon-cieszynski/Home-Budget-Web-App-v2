@@ -37,7 +37,15 @@ class AddExpense extends \Core\Controller
         $expense = new Expenses($_POST);
         if($expense->save()){
             Flash::addMessage('Expense added successfully');
-            View::renderTemplate('AddExpense/new.html');
+            $user= Auth::getUser();
+            $user_id = $user->id;
+        
+            $expenses_cat = Expenses::getExpenseCategories($user_id);
+            $pay_method = Expenses::getPaymentMethods($user_id);
+            View::renderTemplate('AddExpense/new.html', [
+                'expense_cat' => $expenses_cat,
+                'pay_method' => $pay_method
+            ]);
         }else{
             View::renderTemplate('AddExpense/new.html', [
                 'expenses' => $expense

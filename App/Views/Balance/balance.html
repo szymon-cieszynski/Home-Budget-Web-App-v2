@@ -179,10 +179,11 @@
                 <h4><span style="color: green">You have no expenses in selected period!</span></h4>
                 {% endif %}
             </div>
-            <div class="row">
+            <div class="col-sm-12" style="justify-content: center; display: flex;">
                 {% if sumExpenses < sumIncomes %} <h4><span style="color: green;"">Difference between incomes and expenses:  {{sumIncomes - sumExpenses}} PLN </span></h4>
                 {% else %}
-                <h4><span style=" color: red;"">Difference between incomes and expenses: {{sumIncomes - sumExpenses}}
+                <h4><span style=" color: red;"">Difference between incomes and expenses: {{(sumIncomes -
+                        sumExpenses)|number_format(2, '.', ',')}}
                         PLN
                     </span></h4>
                     {% endif %}

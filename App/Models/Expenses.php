@@ -83,33 +83,27 @@ class Expenses extends \Core\Model
 
     public static function getExpenseCategories($user_id)
     {
-        //$user_id = $_SESSION['user_id'];
-        //$id = $user[id];
+        /*$user= Auth::getUser();
+        $user_id = $user->id;*/
         $sql = 'SELECT * FROM expenses_category_assigned_to_users WHERE user_id=:user_id';
         $db = static::getDB();
         $stmt = $db->prepare($sql);
 
-        //$stmt->bindValue(':user_id', $this->id, PDO::PARAM_INT);
         $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
         $stmt->execute();
-        //$categories = $stmt->fetchAll();
-        //return $categories;
         return $stmt->fetchAll();
     }
 
     public static function getPaymentMethods($user_id)
     {
-        //$user_id = $_SESSION['user_id']; 
-        //$id = $user[id];
+        /*$user= Auth::getUser();
+        $user_id = $user->id;*/
         $sql = 'SELECT * FROM payment_methods_assigned_to_users WHERE user_id=:user_id';
         $db = static::getDB();
         $stmt = $db->prepare($sql);
 
-        //$stmt->bindValue(':user_id', $this->id, PDO::PARAM_INT);
         $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
         $stmt->execute();
-        //$categories = $stmt->fetchAll();
-        //return $categories;
         return $stmt->fetchAll();
     }
   

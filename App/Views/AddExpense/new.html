@@ -72,6 +72,7 @@
                     <div class="form-group">
                         <label for="payment_method">Payment method:</label>
                         <select name="payment_method" id="payment_method" class="form-control">
+                            <option value="">--Please choose an option--</option>
                             {% for method in pay_method %}
                             <option value={{method.id}}> {{method.name}}</option>
                             {% endfor %}
@@ -95,7 +96,8 @@
                     <div class="form-group">
                         <label for="comment">Comment:</label>
                         <br>
-                        <textarea id="comment" name="comment" rows="2" cols="50" class="form-control"></textarea>
+                        <textarea id="comment" name="comment" rows="3" cols="50" class="form-control"
+                            style="resize: none;"></textarea>
                     </div>
 
                 </div>

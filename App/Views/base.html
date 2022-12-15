@@ -9,56 +9,56 @@
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 
-<body>
-    <header>
-        {% if current_user %}
-        <nav class="navbar navbar-dark bg-dark navbar-expand-md">
-            <a class="navbar-brand" href="/home/index">Home Budget</a>
+<body class="m-0 border-0">
+    {% if current_user %}
+    <nav class="navbar navbar-dark bg-dark navbar-expand-lg p-5">
+        <a class="navbar-brand" href="/home/index">Home Budget</a>
 
-            <button class="navbar-toggler order-first" type="button" data-toggle="collapse" data-target="#mainmenu"
-                aria-controls="mainmenu" aria-expanded="false" aria-label="Navigation switch">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="mainmenu">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/addIncome/new">Add income</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/addExpense/new">Add expense</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="balance.php">Balance review</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#">Settings</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/logout">Log out</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-        {% else %}
-        <nav class="navbar navbar-dark bg-dark navbar-expand-md">
-            <a class="navbar-brand" href="/home/index">Home Budget</a>
-            <button class="navbar-toggler order-first" type="button" data-toggle="collapse" data-target="#menu"
-                aria-controls="mainmenu" aria-expanded="false" aria-label="Navigation switch">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="menu">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/signup/new">Sign Up!</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/login/new">Log in</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-        {% endif %}
-    </header>
+        <button class="navbar-toggler order-first" type="button" data-bs-toggle="collapse" data-bs-target="#mainmenu"
+            aria-controls="mainmenu" aria-expanded="false" aria-label="Navigation switch">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mainmenu">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="/addIncome/new">Add income</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/addExpense/new">Add expense</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Balance/new">Balance review</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#">Settings</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Log out</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    {% else %}
+    <nav class="navbar navbar-dark bg-dark navbar-expand-lg p-5">
+        <a class="navbar-brand" href="/home/index">Home Budget</a>
+
+        <button class="navbar-toggler order-first" type="button" data-bs-toggle="collapse" data-bs-target="#menu"
+            aria-controls="menu" aria-expanded="false" aria-label="Navigation switch">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="menu">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/signup/new">Sign Up!</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/login/new">Log in</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    {% endif %}
+
 
     <main>
 
@@ -78,6 +78,7 @@
     <script src="https://code.jquery.com/jquery-3.6.1.min.js"
         integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
     <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.17.0/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 
     {% block footer %}
     {% endblock %}

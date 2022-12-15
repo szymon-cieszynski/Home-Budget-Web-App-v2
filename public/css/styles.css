@@ -16,12 +16,15 @@
     font-size: 120%;
 } */
 
-table,
+/* table,
 th,
 td {
-    border: 1px solid;
-    width: 50%;
-}
+    border: 10px solid rgb(156, 50, 50);
+}*/
+
+/* tfoot {
+    font-weight: bold;
+} */
 
 /* div {
     margin-left: 20%;
@@ -112,12 +115,13 @@ body {
     min-height: 200px;
     background: center/cover url("https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80");
     background-repeat: no-repeat;
-    font-size: 140%;
-    color: rgba(245, 245, 245, 0.988);
+    font-size: 30px;
+    color: rgba(255, 253, 253, 0.988);
+
 }
 
 .navbar-brand {
-    font-size: 140%;
+    font-size: 40px;
 }
 
 .pagedescription {

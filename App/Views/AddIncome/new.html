@@ -51,31 +51,43 @@
             {% endif %}
         </header>
         <form action="/addIncome/create" method="post" id="formAddIncome">
-            <div class="row">
+            <div class="row g-2">
                 <div class="col-sm-6 mb-4">
-                    <label>Amount: PLN</label>
-                    <input type="number" id="amount" name="amount" step="0.01">
-                    <!-- <label>PLN</label> -->
+                    <div class="form-group">
+                        <label>Amount: PLN</label>
+                        <input type="number" id="amount" name="amount" step="0.01" class="form-control">
+                        <!-- <label>PLN</label> -->
+                    </div>
                 </div>
 
+
                 <div class="col-sm-6 mb-4">
-                    <label for="date">Enter a date:</label>
-                    <input type="date" id="date" name="date">
+                    <div class="form-group">
+                        <label for="date">Enter a date:</label>
+                        <input type="date" id="date" name="date" class="form-control form-control-sm">
+                    </div>
                 </div>
 
                 <div class="col-sm-12 mb-4">
-                    <label>Category:</label>
-                    <select id="category" name="category">
-                        <option value="">--Please choose an option--</option>
-                        {% for income_cat in income_cat %}
-                        <option value={{income_cat.id}}> {{income_cat.name}}</option>
-                        {% endfor %}
-                    </select>
+                    <div class="form-group">
+                        <label>Category:</label>
+                        <select id="category" name="category" class="form-control">
+                            <option value="">--Please choose an option--</option>
+                            {% for category in income_cat %}
+                            <option value={{ category.id }}> {{ category.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
                 </div>
+
                 <div class="col-sm-12 mb-4">
-                    <label for="comment">Comment:</label>
-                    <br>
-                    <textarea id="comment" name="comment" rows="2" cols="50"></textarea>
+                    <div class="form-group">
+                        <label for="comment">Comment:</label>
+                        <br>
+                        <textarea id="comment" name="comment" rows="3" cols="50" class="form-control"
+                            style="resize: none;"></textarea>
+                    </div>
+
                 </div>
                 <div class="col-sm-12 my-1">
                     <input type="submit" class="button" value="Add income">

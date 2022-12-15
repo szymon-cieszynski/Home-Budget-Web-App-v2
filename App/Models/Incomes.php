@@ -73,22 +73,54 @@ class Incomes extends \Core\Model
             $this->errors[] = 'Comment should be shorter than 100 chars';
     }
 
-    public static function getIncomeCategories()
+    public static function getIncomeCategories($user_id)
     {
-        $user_id['id'] = Auth::getUser();
-        //$id = $user[id];
-        $sql = 'SELECT * FROM incomes_category_assigned_to_users WHERE user_id=:user_id';
+        $sql = 'SELECT * FROM incomes_category_assigned_to_users WHERE `user_id`=:user_id';
         $db = static::getDB();
         $stmt = $db->prepare($sql);
 
-        //$stmt->bindValue(':user_id', $this->id, PDO::PARAM_INT);
+
         $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
         $stmt->execute();
-        //$categories = $stmt->fetchAll();
-        //return $categories;
-        return $stmt->fetchAll();
-        
 
+        return $stmt->fetchAll();
     }
+
+    public static function incomesBalance($user_id, $minDate, $maxDate) {
+
+        $sql = 'SELECT `name`, SUM(`amount`) AS sumOfIncome FROM `incomes`, `incomes_category_assigned_to_users`
+        WHERE `incomes`.`income_category_assigned_to_user_id`=`incomes_category_assigned_to_users`.`id` AND `incomes`.`user_id` = :user_id
+        AND `incomes`.`date_of_income`
+        BETWEEN :minDate AND :maxDate GROUP BY `income_category_assigned_to_user_id` ORDER BY sumOfIncome DESC';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+        $stmt->bindValue(':minDate', $minDate, PDO::PARAM_STR);
+        $stmt->bindValue(':maxDate', $maxDate, PDO::PARAM_STR);
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+    }
+
+    public static function getdataPointsIncomes($user_incomes){
+        
+        $dataPointsIncomes = array();
+        foreach ($user_incomes as $income) {
+            $dataPointsIncomes[] = array("label" => $income['name'], "y" => $income['sumOfIncome']);
+        }
+        return $dataPointsIncomes;
+    }
+
+    public static function getSumOfIncomes($user_incomes){
+        $sumIncomes = 0;
+        foreach ($user_incomes as $income) {
+            $sumIncomes += $income['sumOfIncome'];
+        }
+
+        return number_format($sumIncomes, 2, '.', '');
+    }
+    
   
 }

@@ -81,36 +81,64 @@ class Expenses extends \Core\Model
             $this->errors[] = 'Comment should be shorter than 100 chars';
     }
 
-    public static function getExpenseCategories()
+    public static function getExpenseCategories($user_id)
     {
-        $user_id['id'] = Auth::getUser();
-        //$id = $user[id];
+        /*$user= Auth::getUser();
+        $user_id = $user->id;*/
         $sql = 'SELECT * FROM expenses_category_assigned_to_users WHERE user_id=:user_id';
         $db = static::getDB();
         $stmt = $db->prepare($sql);
 
-        //$stmt->bindValue(':user_id', $this->id, PDO::PARAM_INT);
         $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
         $stmt->execute();
-        //$categories = $stmt->fetchAll();
-        //return $categories;
         return $stmt->fetchAll();
     }
 
-    public static function getPaymentMethods()
+    public static function getPaymentMethods($user_id)
     {
-        $user_id['id'] = Auth::getUser();
-        //$id = $user[id];
+        /*$user= Auth::getUser();
+        $user_id = $user->id;*/
         $sql = 'SELECT * FROM payment_methods_assigned_to_users WHERE user_id=:user_id';
         $db = static::getDB();
         $stmt = $db->prepare($sql);
 
-        //$stmt->bindValue(':user_id', $this->id, PDO::PARAM_INT);
         $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
         $stmt->execute();
-        //$categories = $stmt->fetchAll();
-        //return $categories;
         return $stmt->fetchAll();
     }
   
+    public static function expensesBalance($user_id, $minDate, $maxDate) {
+        $sql = 'SELECT `name`, SUM(`amount`) AS sumOfExpense FROM `expenses`, `expenses_category_assigned_to_users`
+        WHERE `expenses`.`expense_category_assigned_to_user_id`=`expenses_category_assigned_to_users`.`id` AND `expenses`.`user_id` = :user_id
+        AND `expenses`.`date_of_expense`
+        BETWEEN :minDate AND :maxDate GROUP BY `expense_category_assigned_to_user_id` ORDER BY sumOfExpense DESC';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+        $stmt->bindValue(':minDate', $minDate, PDO::PARAM_STR);
+        $stmt->bindValue(':maxDate', $maxDate, PDO::PARAM_STR);
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+    }
+
+    public static function getdataPointsExpenses($user_expenses){
+        
+        $dataPointsExpenses = array();
+        foreach ($user_expenses as $expense) {
+            $dataPointsExpenses[] = array("label" => $expense['name'], "y" => $expense['sumOfExpense']);
+        }
+        return $dataPointsExpenses;
+    }
+
+    public static function getSumOfExpenses($user_expenses){
+        $sumExpenses = 0;
+        foreach ($user_expenses as $expense) {
+            $sumExpenses += $expense['sumOfExpense'];
+        }
+
+        return number_format($sumExpenses, 2, '.', '');
+    }
 }

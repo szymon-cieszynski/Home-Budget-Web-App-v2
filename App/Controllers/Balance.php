@@ -36,6 +36,7 @@ class Balance extends \Core\Controller
 
             $minDate = $range['minDate'];
             $maxDate = $range['maxDate'];
+            $error_date = Dates::checkRange($minDate, $maxDate);
 
             $user_incomes = Incomes::incomesBalance($user_id, $minDate, $maxDate);
             $user_expenses = Expenses::expensesBalance($user_id, $minDate, $maxDate);
@@ -54,7 +55,7 @@ class Balance extends \Core\Controller
                 'user_expenses' => $user_expenses, 
                 'min_date' => $minDate,
                 'max_date' => $maxDate,
-                //'error_date' => $_SESSION['error_date'],
+                'error_date' => $error_date,
                 'dataPointsIncomes' => $dataPointsIncomes,
                 'dataPointsExpenses' => $dataPointsExpenses,
                 'sumIncomes' => $sumIncomes,

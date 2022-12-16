@@ -160,12 +160,12 @@
                         </tr>
                     </tfoot>
                 </table>
-                {% if user_incomes is not empty %}
+                <!-- {% if user_incomes is not empty %}
                 <div id="chartContainerIncomes" style="height: 370px; width: 100%;"></div>
                 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
                 {% else %}
                 <h4><span style="color: green">You have no incomes in selected period!</span></h4>
-                {% endif %}
+                {% endif %} -->
             </div>
 
             <div class="col-sm-6 mb-4 p-4">
@@ -192,13 +192,27 @@
                         </tr>
                     </tfoot>
                 </table>
+            </div>
+            <div class="col-sm-6 mb-4 p-2">
+                <!-- <div class="col-sm-12"> -->
+                {% if user_incomes is not empty %}
+                <div id="chartContainerIncomes" style="height: 370px; width: 100%; float: left; margin-right: 5px;">
+                </div>
+                <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+                {% else %}
+                <h4><span style="color: green">You have no incomes in selected period!</span></h4>
+                {% endif %}
+                <!-- </div>
+                    <div class="row"> -->
                 {% if user_expenses is not empty %}
-                <div id="chartContainerExpenses" style="height: 370px; width: 100%;"></div>
+                <div id="chartContainerExpenses" style="height: 370px; width: 100%; margin-left: 5px;"></div>
                 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
                 {% else %}
                 <h4><span style="color: green">You have no expenses in selected period!</span></h4>
                 {% endif %}
+                <!-- </div> -->
             </div>
+
             <div class="col-sm-12" style="justify-content: center; display: flex;">
                 {% if sumExpenses < sumIncomes %} <h4><span style="color: green;"">Difference between incomes and expenses:  {{sumIncomes - sumExpenses}} PLN </span></h4>
                 {% else %}

@@ -1,5 +1,5 @@
 vendor
-
+logs
 composer.lock
 
 Config.php

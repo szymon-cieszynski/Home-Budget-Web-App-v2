@@ -84,12 +84,12 @@ class User extends \Core\Model
     {
         $sql = 'INSERT INTO incomes_category_assigned_to_users (name) SELECT name FROM incomes_category_default';
         $db = static::getDB();
-        $stmt = $db->prepare($sql);
+        //$stmt = $db->prepare($sql);
         //$db->execute($sql);
-        $stmt->execute();
+        $db->exec($sql);
 
         $sql = 'UPDATE incomes_category_assigned_to_users SET `user_id`= :user_id  ORDER BY id DESC LIMIT 4';
-        $db = static::getDB();
+        //$db = static::getDB();
         $stmt = $db->prepare($sql);
         $stmt->bindParam(':user_id', $user_id, PDO::PARAM_STR); 
         $stmt->execute();
@@ -102,7 +102,7 @@ class User extends \Core\Model
         $db->exec($sql);
 
         $sql = 'UPDATE expenses_category_assigned_to_users SET `user_id`= :user_id  ORDER BY id DESC LIMIT 16';
-        $db = static::getDB();
+        //$db = static::getDB();
         $stmt = $db->prepare($sql);
         $stmt->bindParam(':user_id', $user_id, PDO::PARAM_STR); 
         $stmt->execute();
@@ -116,7 +116,7 @@ class User extends \Core\Model
         $db->exec($sql);
 
         $sql = 'UPDATE payment_methods_assigned_to_users SET `user_id`= :user_id  ORDER BY id DESC LIMIT 3';
-        $db = static::getDB();
+        //$db = static::getDB();
         $stmt = $db->prepare($sql);
         $stmt->bindParam(':user_id', $user_id, PDO::PARAM_STR); 
         $stmt->execute();

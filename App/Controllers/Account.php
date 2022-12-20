@@ -17,7 +17,7 @@ class Account extends \Core\Controller
    */
   public function validateEmailAction()
   {
-  $is_valid = !User::emailExists($_GET['email']/*, $_GET['ignore_id']*/); //check if email exist, Ajax query
+    $is_valid = !User::emailExists($_GET['email'], $_GET['ignore_id'] ?? null); //check if email exist, Ajax query, set null if not provided
 
     header('Content-Type: application/json'); //uzyskujemy odpowiedź
     echo json_encode($is_valid); //pokaze wynik tru lub false

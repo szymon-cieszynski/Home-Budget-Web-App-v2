@@ -30,7 +30,6 @@
                     }
                 },
                 password: {
-                    //required: true,
                     minlength: 6,
                     validPassword: true
                 }
@@ -46,7 +45,10 @@
           */
         $('#inputPassword').hideShowPassword({
             show: false,
-            innerToggle: 'focus'
+            innerToggle: 'focus',
+            styles: {
+                position: 'absolute'
+            }
         });
     });
 </script>
@@ -85,8 +87,8 @@
                     <div class="form-group mb-4">
                         <label for="inputPassword">Password</label>
                         <input type="password" id="inputPassword" name="password" placeholder="Password"
-                            aria-describedby="helpBlock" class="help-block" />
-                        <span id="helpBlock">Leave blank to keep current password</span>
+                            aria-describedby="helpBlock" class="help-block form-control" />
+                        <span id="helpBlock" class="help-block">Leave blank to keep current password</span>
                     </div>
                     <input type="submit" class="button" value="Save">
                     <!-- <button type="submit" class="btn btn-default">Save</button> -->

@@ -119,32 +119,67 @@
                 </table>
             </div>
             <div class="col-sm-6 mb-4 p-2">
-
-                <div id="chartContainerIncomes" style="height: 370px; width: 100%; float: left; margin-right: 5px;">
-                    {% if user_incomes is not empty %}
-                    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-                </div>
-                {% else %}
+                {% if sumIncomes == 0 %}
                 <h4><span style="color: green">You have no incomes in selected period!</span></h4>
-                {% endif %}
-
-
-                {% if user_expenses is not empty %}
-                <div id="chartContainerExpenses" style="height: 370px; width: 100%; margin-left: 5px;">
-
-                    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-                </div>
                 {% else %}
+                <div id="chartContainerIncomes" style="height: 370px; width: 100%;">
+                    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+                    <script>
+                        //chart Incomes:
+                        var chart = new CanvasJS.Chart("chartContainerIncomes", {
+                            animationEnabled: true,
+                            title: {
+                                text: "Incomes pie chart"
+                            },
+                            subtitles: [{
+                                text: ""
+                            }],
+                            data: [{
+                                type: "pie",
+                                yValueFormatString: "#,##0.00\"PLN\"",
+                                indexLabel: "{label} ({y})",
+                                dataPoints: {{ dataPointsIncomes| json_encode | raw }}
+                             }]
+                          })
+                        chart.render();
+                    </script>
+                </div>
+                {% endif %}
+            </div>
+            <div class="col-sm-6 mb-4 p-2">
+                {% if sumExpenses == 0 %}
                 <h4><span style="color: green">You have no expenses in selected period!</span></h4>
+                {% else %}
+                <div id="chartContainerExpenses" style="height: 370px; width: 100%;">
+                    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+                    <script>
+                        //chart Expenses:
+                        var chart = new CanvasJS.Chart("chartContainerExpenses", {
+                            animationEnabled: true,
+                            title: {
+                                text: "Expenses pie chart"
+                            },
+                            subtitles: [{
+                                text: ""
+                            }],
+                            data: [{
+                                type: "pie",
+                                yValueFormatString: "#,##0.00\"PLN\"",
+                                indexLabel: "{label} ({y})",
+                                dataPoints: {{ dataPointsExpenses| json_encode | raw }}
+                            }]
+                        })
+                        chart.render();
+                    </script>
+                </div>
                 {% endif %}
             </div>
 
 
-
-
             {% endif %}
             <!-- {% endif %} -->
-            <div class="sm-12" style="justify-content: center; display: flex;">
+            {% if user_incomes is not empty or user_expenses is not empty %}
+            <div class="bg-transparent border d-flex aligns-items-center justify-content-center" style="height: 100px">
                 {% if sumExpenses < sumIncomes %} <h4><span style="color: green;">Difference between incomes and
                         expenses:
                         {{(sumIncomes - sumExpenses)|number_format(2, '.', ',')}} PLN </span></h4>
@@ -153,6 +188,7 @@
                             sumExpenses)|number_format(2, '.', ',')}} PLN</span></h4>
                     {% endif %}
             </div>
+            {% endif %}
         </div>
     </div>
 
@@ -162,25 +198,8 @@
 {% endblock %}
 
 {% block footer %}
-<!-- <script src="/js/app.js"></script> -->
-<!-- <script src="/js/charts.js"></script> -->
+
 <script>
-
-    // var startDate = new Date($('#start').val());
-    // var endDate = new Date($('#end').val());
-
-    // if (startDate > endDate) {
-    //     alert('zla data')
-    // }
-
-    // var date1 = document.getElementById('start').value;
-    // var date2 = document.getElementById('end').value;
-    // // var dateObjFrom = getDateObj(date1)
-    // // var dateObjTo = getDateObj(date1)
-    // if (date1 > date2) {
-    //     alert('Date From is greater')
-    // }
-
     const select = document.getElementById('period');
     // const box = document.getElementById('hidden');
 
@@ -194,45 +213,5 @@
         }
     });
 
-    //chart Incomes:
-    window.onload = function () {
-        var chart = new CanvasJS.Chart("chartContainerIncomes", {
-            animationEnabled: true,
-            title: {
-                text: "Incomes pie chart"
-            },
-            subtitles: [{
-                text: ""
-            }],
-            data: [{
-                type: "pie",
-                yValueFormatString: "#,##0.00\"PLN\"",
-                indexLabel: "{label} ({y})",
-                //dataPoints: <? php echo json_encode($_SESSION['dataPointsIncomes'], JSON_NUMERIC_CHECK); ?>
-                //dataPoints: "{{ array|json_encode(dataPointsIncomes and constant('JSON_PRETTY_PRINT')) }}"
-                //dataPoints: "{{ data|json_encode(dataPointsIncomes and constant('JSON_NUMERIC_CHECK')) }}"
-                dataPoints: {{ dataPointsIncomes| json_encode | raw }}
-        }]
-    })
-    chart.render();
-
-    //chart Expenses:
-    var chart = new CanvasJS.Chart("chartContainerExpenses", {
-        animationEnabled: true,
-        title: {
-            text: "Expenses pie chart"
-        },
-        subtitles: [{
-            text: ""
-        }],
-        data: [{
-            type: "pie",
-            yValueFormatString: "#,##0.00\"PLN\"",
-            indexLabel: "{label} ({y})",
-            dataPoints: {{ dataPointsExpenses| json_encode | raw }}
-            }]
-        })
-    chart.render();
-    }
 </script>
 {% endblock %}

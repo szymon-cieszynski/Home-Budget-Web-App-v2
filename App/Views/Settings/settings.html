@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Settings{% endblock %}
+
+{% block body %}
+<section class="Settings">
+    <div class="container my-3">
+        <header>
+            <h1>Settings</h1>
+            <p>Change cateogires and paymet methods, add new or remove current.</p>
+        </header>
+        <div class="row g-2">
+            <div class="col-sm-6 mb-4">
+                <div class="form-group">
+                    <label>Incomes categories:</label>
+                    <select id="category" name="category" class="form-control">
+                        <option value="">--You current incomes categories--</option>
+                        {% for category in income_cat %}
+                        <option value={{ category.id }}> {{ category.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-12 my-1">
+                <input class="button" type="button" onclick="window.location.replace('/settings/editIncomesCat')"
+                    value="Edit">
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

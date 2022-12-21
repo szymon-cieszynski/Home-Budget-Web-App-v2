@@ -6,11 +6,12 @@ use \App\Auth;
 
 use \Core\View;
 use \App\Flash;
+use \App\Models\Incomes;
 
 /**
- * Profile controller
+ * Settings controller
  */
-class Profile extends Authenticated
+class Settings extends Authenticated
 {
     /**
      * Before filter - called before each action method
@@ -19,19 +20,22 @@ class Profile extends Authenticated
      */
     protected function before()
     {
-        parent::before(); //to wywoła metodę która wymaga zalogowania do strony jeśli chcemy mieć dostęp do edycji danych..!!
+        parent::before();
         $this->user = Auth::getUser(); //unikamy redundacji kodu
     }
 
     /**
-     * Show the profile
+     * Show settings sections
      *
      * @return void
      */
-    public function showAction()
+    public function settingsAction()
     {
-        View::renderTemplate('Profile/show.html', [
-            'user' => $this->user
+        $user_id = $this->user->id;
+
+        View::renderTemplate('Settings/settings.html', [
+            'user' => $this->user,
+            'income_cat' => Incomes::getIncomeCategories($user_id)
         ]);
     }
 
@@ -42,8 +46,9 @@ class Profile extends Authenticated
      */
     public function editAction()
     {
-        View::renderTemplate('Profile/edit.html', [
-            'user' => $this->user
+        View::renderTemplate('Profile/editIncomesCat.html', [
+            'user' => $this->user,
+            // 'income_cat' => $incomes_cat
         ]);
     }
 

@@ -1,7 +1,24 @@
 {% extends "base.html" %}
 
 {% block title %}Settings{% endblock %}
+{% block footer %}
 
+<script>
+    const select = document.getElementById('categoryIncomes');
+    // const box = document.getElementById('hidden');
+
+    select.addEventListener('change', function handleChange(event) {
+        if (event.target.value) {
+            document.getElementById("modalButtonsIncome").hidden = false;
+            // box.style.visibility = 'visible';
+        } else {
+            document.getElementById("modalButtonsIncome").hidden = true;
+            // box.style.visibility = 'hidden';
+        }
+    });
+
+</script>
+{% endblock %}
 {% block body %}
 <section class="Settings">
     <div class="container my-3">
@@ -14,37 +31,39 @@
                 <form action="/settings/editIncomes" method="post" id="formEditIncomeCat">
                     <div class="form-group mb-4">
                         <label>Incomes categories:</label>
-                        <select id="category" name="category" class="form-control">
+                        <select id="categoryIncomes" name="categoryIncomes" class="form-control">
                             <option value="">--Your current incomes categories--</option>
                             {% for category in income_cat %}
                             <option value={{ category.id }}> {{ category.name }}</option>
                             {% endfor %}
                         </select>
                     </div>
-
-                    <!-- Button trigger modal -->
-                    <button type="button" class="button" data-bs-toggle="modal" data-bs-target="#editIncomeCat">
-                        Edit
-                    </button>
-                    <!-- Modal -->
-                    <div class="modal fade" id="editIncomeCat" tabindex="-1" aria-labelledby="editIncomeCatLabel"
-                        aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="editIncomeCat">Edit category</h1>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="form-group incomeCategoriesInput">
-                                        <label for="newIncomeName">Income category name</label>
-                                        <input type="text" class="form-control" id="newIncomeName" name="newIncomeName">
+                    <div id="modalButtonsIncome" hidden class="form-group mb-4">
+                        <!-- Button trigger modal -->
+                        <button type="button" class="button" data-bs-toggle="modal" data-bs-target="#editIncomeCat">
+                            Edit
+                        </button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="editIncomeCat" tabindex="-1" aria-labelledby="editIncomeCatLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="editIncomeCat">Edit category</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
                                     </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="button" data-bs-dismiss="modal">Cancel</button>
-                                    <button type="submit" class="button">Save changes</button>
+                                    <div class="modal-body">
+                                        <div class="form-group incomeCategoriesInput">
+                                            <label for="newIncomeName">Income category name</label>
+                                            <input type="text" class="form-control" id="newIncomeName"
+                                                name="newIncomeName">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="button" data-bs-dismiss="modal">Cancel</button>
+                                        <button type="submit" class="button">Save changes</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -63,19 +82,20 @@
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <div class="form-group incomeCategoriesInput">
-                                            <label for="newIncomeName">Income category name</label>
-                                            <input type="text" class="form-control" id="newIncomeName"
-                                                name="newIncomeName">
+                                        <div class="form-group deleteCategoriesInput">
+                                            <span>Are you sure? It will delete all incomes in this category!</span>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="button" data-bs-dismiss="modal">Cancel</button>
-                                        <button type="submit" class="button">Save changes</button>
+                                        <button type="submit" class="button">Delete</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+                    </div>
+
                 </form>
             </div>
         </div>

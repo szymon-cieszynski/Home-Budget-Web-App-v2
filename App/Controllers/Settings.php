@@ -41,7 +41,7 @@ class Settings extends Authenticated
 
     public function editIncomesAction()
     {
-        if (Incomes::editIncomesCat($_POST['category'], $_POST['newIncomeName'])) {
+        if (Incomes::editIncomesCat($_POST['categoryIncomes'], $_POST['newIncomeName'])) {
 
             Flash::addMessage('Changes saved');
             $this->redirect('/settings/show');

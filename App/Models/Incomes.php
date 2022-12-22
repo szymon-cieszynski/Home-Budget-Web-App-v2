@@ -121,6 +121,21 @@ class Incomes extends \Core\Model
 
         return number_format($sumIncomes, 2, '.', '');
     }
+
+    public static function editIncomesCat($category_id, $newIncomeName)
+    {
+        $sql = 'UPDATE incomes_category_assigned_to_users
+            SET name = :newIncomeName
+            WHERE id = :category_id';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':newIncomeName', $newIncomeName, PDO::PARAM_STR);
+        $stmt->bindValue(':category_id', $category_id, PDO::PARAM_STR);
+
+        return $stmt->execute();
+    }
     
   
 }

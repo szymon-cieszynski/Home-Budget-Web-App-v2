@@ -29,45 +29,27 @@ class Settings extends Authenticated
      *
      * @return void
      */
-    public function settingsAction()
+    public function showAction()
     {
         $user_id = $this->user->id;
 
         View::renderTemplate('Settings/settings.html', [
-            'user' => $this->user,
+            /*'user' => $this->user,*/
             'income_cat' => Incomes::getIncomeCategories($user_id)
         ]);
     }
 
-    /**
-     * Show the form for editing the profile
-     *
-     * @return void
-     */
-    public function editAction()
+    public function editIncomesAction()
     {
-        View::renderTemplate('Profile/editIncomesCat.html', [
-            'user' => $this->user,
-            // 'income_cat' => $incomes_cat
-        ]);
-    }
-
-    /**
-     * Update the profile
-     *
-     * @return void
-     */
-    public function updateAction()
-    {
-        if ($this->user->updateProfile($_POST)) {
+        if (Incomes::editIncomesCat($_POST['category'], $_POST['newIncomeName'])) {
 
             Flash::addMessage('Changes saved');
-
-            $this->redirect('/profile/show');
+            $this->redirect('/settings/show');
         } else {
 
-            View::renderTemplate('Profile/edit.html', [
-                'user' => $this->user
+            Flash::addMessage('Could not save changes!', FLASH::WARNING);
+            View::renderTemplate('/settings/settings.html', [
+                /*'user' => $this->user*/
             ]);
         }
     }

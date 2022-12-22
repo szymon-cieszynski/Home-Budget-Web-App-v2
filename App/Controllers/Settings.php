@@ -53,4 +53,18 @@ class Settings extends Authenticated
             ]);
         }
     }
+
+    public function deleteIncomesAction()
+    {
+        if (Incomes::deleteIncomesCat($_POST['categoryIncomes'])) {
+
+            Flash::addMessage('Category deleted succesfully');
+            $this->redirect('/settings/show');
+        } else {
+            Flash::addMessage('Could not delete category!', FLASH::WARNING);
+            View::renderTemplate('/settings/settings.html', [
+                /*'user' => $this->user*/
+            ]);
+        }
+    }
 }

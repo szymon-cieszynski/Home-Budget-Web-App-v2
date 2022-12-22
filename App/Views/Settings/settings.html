@@ -5,8 +5,6 @@
 
 <script>
     const select = document.getElementById('categoryIncomes');
-    // const box = document.getElementById('hidden');
-
     select.addEventListener('change', function handleChange(event) {
         if (event.target.value) {
             document.getElementById("modalButtonsIncome").hidden = false;
@@ -30,6 +28,38 @@
             <div class="col-sm-6 mb-4">
                 <form action="/settings/editIncomes" method="post" id="formEditIncomeCat">
                     <div class="form-group mb-4">
+                        <!-- Add new category button -->
+                        <button type="button" class="button" data-bs-toggle="modal" data-bs-target="#newIncomeCat">
+                            Add new
+                        </button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="newIncomeCat" tabindex="-1" aria-labelledby="newIncomeCat"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="newIncomeCat">Add new category</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group incomeCategoriesInput">
+                                            <label for="newIncomeCat">New category:</label>
+                                            <input type="text" class="form-control" id="newIncomeCat"
+                                                name="newIncomeCat">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="button" data-bs-dismiss="modal">Cancel</button>
+                                        <button type="submit" class="button">Save new</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br><br>
+
+                    </div>
+                    <div id="modalButtonsIncome" class="form-group mb-4">
                         <label>Incomes categories:</label>
                         <select id="categoryIncomes" name="categoryIncomes" class="form-control">
                             <option value="">--Your current incomes categories--</option>
@@ -37,8 +67,7 @@
                             <option value={{ category.id }}> {{ category.name }}</option>
                             {% endfor %}
                         </select>
-                    </div>
-                    <div id="modalButtonsIncome" hidden class="form-group mb-4">
+                        <!-- <form method="post" id="editIncome"> -->
                         <!-- Button trigger modal -->
                         <button type="button" class="button" data-bs-toggle="modal" data-bs-target="#editIncomeCat">
                             Edit
@@ -46,60 +75,105 @@
                         <!-- Modal -->
                         <div class="modal fade" id="editIncomeCat" tabindex="-1" aria-labelledby="editIncomeCatLabel"
                             aria-hidden="true">
-                            <div class="modal-dialog">
+                            <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="editIncomeCat">Edit category</h1>
+                                        <h1 class="modal-title fs-5" id="editIncomeCatLabel">Edit category</h1>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
                                         <div class="form-group incomeCategoriesInput">
-                                            <label for="newIncomeName">Income category name</label>
+                                            <label for="newIncomeName">New category name</label>
                                             <input type="text" class="form-control" id="newIncomeName"
                                                 name="newIncomeName">
+                                            <span style="color: red">Delete will remove all incomes in this
+                                                category!</span>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="button" data-bs-dismiss="modal">Cancel</button>
-                                        <button type="submit" class="button">Save changes</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Button trigger modal DELETE-->
-                        <button type="button" class="button" data-bs-toggle="modal" data-bs-target="#deleteIncomeCat">
-                            Delete
-                        </button>
-                        <!-- Modal -->
-                        <div class="modal fade" id="deleteIncomeCat" tabindex="-1"
-                            aria-labelledby="deleteIncomeCatLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="deleteIncomeCat">Delete category</h1>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="form-group deleteCategoriesInput">
-                                            <span>Are you sure? It will delete all incomes in this category!</span>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="button" data-bs-dismiss="modal">Cancel</button>
-                                        <button type="submit" class="button">Delete</button>
+                                        <button class="button" formaction="/settings/deleteIncomes">Delete</button>
+                                        <button class="button" formaction="/settings/editIncomes">Save
+                                            changes</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
+                        <!-- </form>
+                            <form action="/settings/deleteIncomes" method="post" id="formEditIncomeCat"> -->
+                        <!-- Button trigger modal DELETE-->
+                        <!-- <button type="button" class="button" data-bs-toggle="modal"
+                                data-bs-target="#deleteIncomeCat">
+                                Delete
+                            </button> -->
+                        <!-- Modal -->
+                        <!-- <div class="modal fade" id="deleteIncomeCat" tabindex="-1"
+                                aria-labelledby="deleteIncomeCatLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="deleteIncomeCat">Delete category</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group deleteCategoriesInput">
+                                                <span>Are you sure? It will delete all incomes in this category!</span>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="button" data-bs-dismiss="modal">Cancel</button>
+                                            <button type="submit" class="button">Delete</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> -->
+                        <!-- </form> -->
                     </div>
 
                 </form>
             </div>
         </div>
     </div>
+    <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+        tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Modal 1</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Show a second modal and hide this one with the button below.
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Open
+                        second modal</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2"
+        tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Modal 2</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Hide this modal and show the first with the button below.
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Back to
+                        first</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a class="btn btn-primary" data-bs-toggle="modal" href="#exampleModalToggle" role="button">Open first modal</a>
 </section>
 
 {% endblock %}

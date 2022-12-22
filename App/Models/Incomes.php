@@ -136,6 +136,25 @@ class Incomes extends \Core\Model
 
         return $stmt->execute();
     }
+
+    public static function deleteIncomesCat($category_id)
+    {
+        $sql = 'DELETE FROM incomes_category_assigned_to_users
+            WHERE id = :category_id';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':category_id', $category_id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $sql = 'DELETE FROM incomes
+            WHERE income_category_assigned_to_user_id = :category_id';
+
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':category_id', $category_id, PDO::PARAM_INT);
+        return $stmt->execute();
+
+    }
     
   
 }

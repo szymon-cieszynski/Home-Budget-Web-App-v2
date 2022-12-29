@@ -7,6 +7,7 @@ use \App\Auth;
 use \Core\View;
 use \App\Flash;
 use \App\Models\Incomes;
+use \App\Models\Expenses;
 
 /**
  * Settings controller
@@ -35,7 +36,9 @@ class Settings extends Authenticated
 
         View::renderTemplate('Settings/settings.html', [
             /*'user' => $this->user,*/
-            'income_cat' => Incomes::getIncomeCategories($user_id)
+            'income_cat' => Incomes::getIncomeCategories($user_id),
+            'expense_cat' => Expenses::getExpenseCategories($user_id),
+            'pay_method' => Expenses::getPaymentMethods($user_id)
         ]);
     }
 
@@ -72,6 +75,19 @@ class Settings extends Authenticated
             $this->redirect('/settings/show');
         } else {
             Flash::addMessage('Could not delete category!', FLASH::DANGER);
+            $this->redirect('/settings/show');
+        }
+    }
+
+    public function newExpenseCategoryAction()
+    {
+        $user_id = $this->user->id;
+        if (Expenses::newExpenseCategory($user_id, $_POST['newExpenseCatName'])) {
+
+            Flash::addMessage('New category added successfully!');
+            $this->redirect('/settings/show');
+        } else {
+            Flash::addMessage('Category already exists!', FLASH::DANGER);
             $this->redirect('/settings/show');
         }
     }

@@ -141,4 +141,36 @@ class Expenses extends \Core\Model
 
         return number_format($sumExpenses, 2, '.', '');
     }
+
+    public static function newExpenseCategory($user_id, $newExpenseName)
+    {
+        if(!static::checkIfCategoryExists($user_id, $newExpenseName))
+        {
+            $sql = 'INSERT INTO expenses_category_assigned_to_users (user_id, name) VALUES (:user_id, :newExpenseName)';
+            $db = static::getDB();
+            $stmt = $db->prepare($sql);
+
+            $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+            $stmt->bindValue(':newExpenseName', $newExpenseName, PDO::PARAM_STR);
+            
+            return $stmt->execute();
+        }else{
+            return false;
+        }
+    }
+  
+    private static function checkIfCategoryExists($user_id, $newExpenseName)
+    {
+        $sql = 'SELECT * FROM expenses_category_assigned_to_users WHERE user_id = :user_id AND name = :newExpenseName';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+        $stmt->bindValue(':newExpenseName', $newExpenseName, PDO::PARAM_STR);
+        
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+        $stmt->execute();
+
+        return $stmt->fetch();
+    }
 }

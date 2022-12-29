@@ -9,8 +9,8 @@
             <h1>Settings</h1>
             <p>Change cateogires and paymet methods, add new or remove current.</p>
         </header>
-        <div class="row g-2">
-            <div class="col-sm-6 mb-4 bg-transparent border p-4">
+        <div class="row">
+            <div class="col-sm-6 mb-2 bg-transparent border p-4">
                 <form method="post" id="newIncomeCat">
                     <header>
                         <h3>Incomes</h3>
@@ -24,7 +24,8 @@
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="newIncomeCategoryLabel">Add new category</h1>
+                                    <h1 class="modal-title fs-5" id="newIncomeCategoryLabel">Add new income category
+                                    </h1>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
@@ -70,7 +71,7 @@
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <div class="form-group incomeCategoriesInput">
+                                        <div class="form-group">
                                             <label for="editIncomeName">New category name:</label>
                                             <input type="text" class="form-control" id="editIncomeName"
                                                 name="editIncomeName">
@@ -101,7 +102,114 @@
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <div class="form-group deleteCategoriesInput">
+                                        <div class="form-group">
+                                            <span style="color: red">Are you sure? It will delete all incomes in
+                                                selected category!</span>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="button" data-bs-dismiss="modal">Cancel</button>
+                                        <button class="button" formaction="/settings/deleteIncomes">Delete</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 mb-2 bg-transparent border p-4">
+                <form method="post" id="newExpenseCat">
+                    <header>
+                        <h3>Expenses</h3>
+                    </header>
+                    <button type="button" class="button" data-bs-toggle="modal" data-bs-target="#newExpenseCategory">
+                        Add new
+                    </button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="newExpenseCategory" tabindex="-1"
+                        aria-labelledby="newExpenseCategoryLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="newExpenseCategoryLabel">Add new expense category
+                                    </h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label for="newExpenseCatName">New category:</label>
+                                        <input type="text" class="form-control" id="newExpenseCatName"
+                                            name="newExpenseCatName">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="button" data-bs-dismiss="modal">Cancel</button>
+                                    <button class="button" formaction="/settings/newExpenseCategory">Save
+                                        new</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br><br>
+                </form>
+                <form method="post" id="editIncome">
+                    <label>Incomes categories:</label>
+                    <select id="categoryIncomes" name="categoryIncomes" class="form-control" required="true">
+                        <option value="">--Your current incomes categories--</option>
+                        {% for category in expense_cat %}
+                        <option value={{ category.id }}> {{ category.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <div id="modalButtonsIncome" class="form-group mb-4" hidden>
+                        <button type="button" class="button" data-bs-toggle="modal" data-bs-target="#editIncomeCat">
+                            Edit
+                        </button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="editIncomeCat" tabindex="-1" aria-labelledby="editIncomeCatLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="editIncomeCatLabel">Edit category</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="editIncomeName">New category name:</label>
+                                            <input type="text" class="form-control" id="editIncomeName"
+                                                name="editIncomeName">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="button" data-bs-dismiss="modal">Cancel</button>
+
+                                        <button class="button" formaction="/settings/editIncomes">Save
+                                            changes</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Button trigger modal DELETE expense-->
+                        <button type="button" class="button" data-bs-toggle="modal" data-bs-target="#deleteIncomeCat">
+                            Delete
+                        </button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="deleteIncomeCat" tabindex="-1"
+                            aria-labelledby="deleteIncomeCatLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="deleteIncomeCat">Delete category</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
                                             <span style="color: red">Are you sure? It will delete all incomes in
                                                 selected category!</span>
                                         </div>
@@ -139,7 +247,7 @@
 
     $(document).ready(function () {
         $('#editIncome').validate({
-            errorClass: 'error',
+            // errorClass: 'error',
             rules: {
                 editIncomeName: {
                     required: true,
@@ -147,12 +255,9 @@
                     maxlength: 15
                 }
             }
-            // messages: {
-            //     newIncomeName: 'Length between 3 and 15 chars'
-            // }
         });
         $('#newIncomeCat').validate({
-            errorClass: 'error',
+            // errorClass: 'error',
             rules: {
                 newIncomeCatName: {
                     required: true,
@@ -160,9 +265,6 @@
                     maxlength: 15
                 }
             }
-            // messages: {
-            //     newIncomeName: 'Length between 3 and 15 chars'
-            // }
         });
     });
 </script>

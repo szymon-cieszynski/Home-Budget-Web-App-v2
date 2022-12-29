@@ -157,6 +157,25 @@ class Expenses extends \Core\Model
         return $stmt->execute();
     }
 
+    public static function deleteExpensesCat($category_id)
+    {
+        $sql = 'DELETE FROM expenses_category_assigned_to_users
+            WHERE id = :category_id';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':category_id', $category_id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $sql = 'DELETE FROM expenses
+            WHERE expense_category_assigned_to_user_id = :category_id';
+
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':category_id', $category_id, PDO::PARAM_INT);
+        return $stmt->execute();
+
+    }
+
     public static function newExpenseCategory($user_id, $newExpenseName)
     {
         if(!static::checkIfCategoryExists($user_id, $newExpenseName))

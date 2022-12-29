@@ -47,7 +47,7 @@ class Settings extends Authenticated
         $user_id = $this->user->id;
         if (Incomes::newIncomeCategory($user_id, $_POST['newIncomeCatName'])) {
 
-            Flash::addMessage('New category added successfully!');
+            Flash::addMessage('New category added successfully.');
             $this->redirect('/settings/show');
         } else {
             Flash::addMessage('Category already exists!', FLASH::DANGER);
@@ -59,7 +59,7 @@ class Settings extends Authenticated
     {
         if (Incomes::editIncomesCat($_POST['categoryIncomes'], $_POST['editIncomeName'])) {
 
-            Flash::addMessage('Changes saved');
+            Flash::addMessage('Changes saved.');
             $this->redirect('/settings/show');
         } else {
             Flash::addMessage('Could not save changes!', FLASH::WARNING);
@@ -71,7 +71,7 @@ class Settings extends Authenticated
     {
         if (Incomes::deleteIncomesCat($_POST['categoryIncomes'])) {
 
-            Flash::addMessage('Category deleted succesfully');
+            Flash::addMessage('Category deleted succesfully.');
             $this->redirect('/settings/show');
         } else {
             Flash::addMessage('Could not delete category!', FLASH::DANGER);
@@ -84,7 +84,7 @@ class Settings extends Authenticated
         $user_id = $this->user->id;
         if (Expenses::newExpenseCategory($user_id, $_POST['newExpenseCatName'])) {
 
-            Flash::addMessage('New category added successfully!');
+            Flash::addMessage('New category added successfully.');
             $this->redirect('/settings/show');
         } else {
             Flash::addMessage('Category already exists!', FLASH::DANGER);
@@ -96,7 +96,7 @@ class Settings extends Authenticated
     {
         if (Expenses::editExpensesCat($_POST['categoryExpenses'], $_POST['editExpenseName'])) {
 
-            Flash::addMessage('Changes saved');
+            Flash::addMessage('Changes saved.');
             $this->redirect('/settings/show');
         } else {
             Flash::addMessage('Could not save changes!', FLASH::WARNING);
@@ -104,5 +104,15 @@ class Settings extends Authenticated
         }
     }
 
+    public function deleteExpensesAction()
+    {
+        if (Expenses::deleteExpensesCat($_POST['categoryExpenses'])) {
 
+            Flash::addMessage('Category deleted succesfully.');
+            $this->redirect('/settings/show');
+        } else {
+            Flash::addMessage('Could not delete category!', FLASH::DANGER);
+            $this->redirect('/settings/show');
+        }
+    }
 }

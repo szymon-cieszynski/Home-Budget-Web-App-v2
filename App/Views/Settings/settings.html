@@ -97,7 +97,7 @@
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="deleteIncomeCat">Delete category</h1>
+                                        <h1 class="modal-title fs-5" id="deleteIncomeCatLabel">Delete category</h1>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
                                     </div>
@@ -155,7 +155,7 @@
                     </div>
                     <br><br>
                 </form>
-                <form method="post" id="editIncome">
+                <form method="post" id="editExpense">
                     <label>Expenses categories:</label>
                     <select id="categoryExpenses" name="categoryExpenses" class="form-control" required="true">
                         <option value="">--Your current expenses categories--</option>
@@ -195,28 +195,28 @@
                         </div>
 
                         <!-- Button trigger modal DELETE expense-->
-                        <button type="button" class="button" data-bs-toggle="modal" data-bs-target="#deleteIncomeCat">
+                        <button type="button" class="button" data-bs-toggle="modal" data-bs-target="#deleteExpenseCat">
                             Delete
                         </button>
                         <!-- Modal -->
-                        <div class="modal fade" id="deleteIncomeCat" tabindex="-1"
-                            aria-labelledby="deleteIncomeCatLabel" aria-hidden="true">
+                        <div class="modal fade" id="deleteExpenseCat" tabindex="-1"
+                            aria-labelledby="deleteExpenseCatLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="deleteIncomeCat">Delete category</h1>
+                                        <h1 class="modal-title fs-5" id="deleteExpenseCatLabel">Delete category</h1>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
                                         <div class="form-group">
-                                            <span style="color: red">Are you sure? It will delete all incomes in
+                                            <span style="color: red">Are you sure? It will delete all expenses in
                                                 selected category!</span>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="button" data-bs-dismiss="modal">Cancel</button>
-                                        <button class="button" formaction="/settings/deleteIncomes">Delete</button>
+                                        <button class="button" formaction="/settings/deleteExpenses">Delete</button>
                                     </div>
                                 </div>
                             </div>

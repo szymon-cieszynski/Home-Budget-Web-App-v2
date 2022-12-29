@@ -71,6 +71,7 @@ class Incomes extends \Core\Model
         //comment
         if(strlen($this->comment)>100)
             $this->errors[] = 'Comment should be shorter than 100 chars';
+
     }
 
     public static function getIncomeCategories($user_id)

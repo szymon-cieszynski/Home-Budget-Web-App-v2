@@ -54,8 +54,7 @@
                         <option value={{ category.id }}> {{ category.name }}</option>
                         {% endfor %}
                     </select>
-                    <div id="modalButtonsIncome" class="form-group mb-4" hidden>
-                        <!-- <form method="post" id="editIncome"> -->
+                    <div id="modalButtonsIncome" class="form-group mt-2" hidden>
                         <!-- Button trigger modal -->
                         <button type="button" class="button" data-bs-toggle="modal" data-bs-target="#editIncomeCat">
                             Edit
@@ -163,7 +162,7 @@
                         <option value={{ category.id }}> {{ category.name }}</option>
                         {% endfor %}
                     </select>
-                    <div id="modalButtonsExpense" class="form-group mb-4" hidden>
+                    <div id="modalButtonsExpense" class="form-group mt-2" hidden>
                         <button type="button" class="button" data-bs-toggle="modal" data-bs-target="#editExpenseCat">
                             Edit
                         </button>
@@ -268,6 +267,26 @@
             // errorClass: 'error',
             rules: {
                 newIncomeCatName: {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 15
+                }
+            }
+        });
+        $('#editExpense').validate({
+            // errorClass: 'error',
+            rules: {
+                editExpenseName: {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 15
+                }
+            }
+        });
+        $('#newExpenseCat').validate({
+            // errorClass: 'error',
+            rules: {
+                newExpenseCatName: {
                     required: true,
                     minlength: 3,
                     maxlength: 15

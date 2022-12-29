@@ -27,6 +27,9 @@ class Flash
      */
     const WARNING = 'warning';
 
+    //ERROR MSG
+    const DANGER = 'danger';
+
     /**
      * Add a message
      *

@@ -159,16 +159,35 @@ class Incomes extends \Core\Model
 
     public static function newIncomeCategory($user_id, $newIncomeName)
     {
-        $sql = 'INSERT INTO incomes_category_assigned_to_users (user_id, name) VALUES (:user_id, :newIncomeName)';
+        if(!static::checkIfCategoryExists($user_id, $newIncomeName))
+        {
+            $sql = 'INSERT INTO incomes_category_assigned_to_users (user_id, name) VALUES (:user_id, :newIncomeName)';
+            $db = static::getDB();
+            $stmt = $db->prepare($sql);
+
+            $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+            $stmt->bindValue(':newIncomeName', $newIncomeName, PDO::PARAM_STR);
+            
+            return $stmt->execute();
+        }else{
+            return false;
+        }
+    }
+  
+    private static function checkIfCategoryExists($user_id, $newIncomeName)
+    {
+        $sql = 'SELECT * FROM incomes_category_assigned_to_users WHERE user_id = :user_id AND name = :newIncomeName';
 
         $db = static::getDB();
         $stmt = $db->prepare($sql);
-
         $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
         $stmt->bindValue(':newIncomeName', $newIncomeName, PDO::PARAM_STR);
         
-        return $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+
+        $stmt->execute();
+
+        return $stmt->fetch();
     }
-    
-  
+
 }

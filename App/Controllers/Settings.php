@@ -44,13 +44,11 @@ class Settings extends Authenticated
         $user_id = $this->user->id;
         if (Incomes::newIncomeCategory($user_id, $_POST['newIncomeCatName'])) {
 
-            Flash::addMessage('Changes saved');
+            Flash::addMessage('New category added successfully!');
             $this->redirect('/settings/show');
         } else {
-            Flash::addMessage('Could not save new category!', FLASH::WARNING);
-            View::renderTemplate('/settings/settings.html', [
-                /*'user' => $this->user*/
-            ]);
+            Flash::addMessage('Category already exists!', FLASH::DANGER);
+            $this->redirect('/settings/show');
         }
     }
 
@@ -62,9 +60,7 @@ class Settings extends Authenticated
             $this->redirect('/settings/show');
         } else {
             Flash::addMessage('Could not save changes!', FLASH::WARNING);
-            View::renderTemplate('/settings/settings.html', [
-                /*'user' => $this->user*/
-            ]);
+            $this->redirect('/settings/show');
         }
     }
 
@@ -75,10 +71,10 @@ class Settings extends Authenticated
             Flash::addMessage('Category deleted succesfully');
             $this->redirect('/settings/show');
         } else {
-            Flash::addMessage('Could not delete category!', FLASH::WARNING);
-            View::renderTemplate('/settings/settings.html', [
-                /*'user' => $this->user*/
-            ]);
+            Flash::addMessage('Could not delete category!', FLASH::DANGER);
+            $this->redirect('/settings/show');
         }
     }
+
+
 }

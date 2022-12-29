@@ -57,7 +57,7 @@ class Settings extends Authenticated
 
     public function editIncomesAction()
     {
-        if (Incomes::editIncomesCat($_POST['categoryIncomes'], $_POST['newIncomeName'])) {
+        if (Incomes::editIncomesCat($_POST['categoryIncomes'], $_POST['editIncomeName'])) {
 
             Flash::addMessage('Changes saved');
             $this->redirect('/settings/show');
@@ -88,6 +88,18 @@ class Settings extends Authenticated
             $this->redirect('/settings/show');
         } else {
             Flash::addMessage('Category already exists!', FLASH::DANGER);
+            $this->redirect('/settings/show');
+        }
+    }
+
+    public function editExpensesAction()
+    {
+        if (Expenses::editExpensesCat($_POST['categoryExpenses'], $_POST['editExpenseName'])) {
+
+            Flash::addMessage('Changes saved');
+            $this->redirect('/settings/show');
+        } else {
+            Flash::addMessage('Could not save changes!', FLASH::WARNING);
             $this->redirect('/settings/show');
         }
     }

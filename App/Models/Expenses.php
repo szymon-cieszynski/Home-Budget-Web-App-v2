@@ -142,6 +142,21 @@ class Expenses extends \Core\Model
         return number_format($sumExpenses, 2, '.', '');
     }
 
+    public static function editExpensesCat($category_id, $newExpenseName)
+    {
+        $sql = 'UPDATE expenses_category_assigned_to_users
+            SET name = :newExpenseName
+            WHERE id = :category_id';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':newExpenseName', $newExpenseName, PDO::PARAM_STR);
+        $stmt->bindValue(':category_id', $category_id, PDO::PARAM_STR);
+
+        return $stmt->execute();
+    }
+
     public static function newExpenseCategory($user_id, $newExpenseName)
     {
         if(!static::checkIfCategoryExists($user_id, $newExpenseName))

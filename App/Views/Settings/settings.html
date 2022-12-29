@@ -11,41 +11,39 @@
         </header>
         <div class="row g-2">
             <div class="col-sm-6 mb-4 bg-transparent border p-4">
-                <form action="/settings/editIncomes" method="post" id="formEditIncomeCat">
+                <form method="post" id="newIncomeCat">
                     <header>
                         <h3>Incomes</h3>
                     </header>
-                    <div class="form-group mb-4">
-                        <!-- Add new category button -->
-                        <button type="button" class="button" data-bs-toggle="modal" data-bs-target="#newIncomeCat">
-                            Add new
-                        </button>
-                        <!-- Modal -->
-                        <div class="modal fade" id="newIncomeCat" tabindex="-1" aria-labelledby="newIncomeCat"
-                            aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="newIncomeCat">Add new category</h1>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
+                    <button type="button" class="button" data-bs-toggle="modal" data-bs-target="#newIncomeCategory">
+                        Add new
+                    </button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="newIncomeCategory" tabindex="-1"
+                        aria-labelledby="newIncomeCategoryLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="newIncomeCategoryLabel">Add new category</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label for="newIncomeCatName">New category:</label>
+                                        <input type="text" class="form-control" id="newIncomeCatName"
+                                            name="newIncomeCatName">
                                     </div>
-                                    <div class="modal-body">
-                                        <div class="form-group incomeCategoriesInput">
-                                            <label for="newIncomeCat">New category:</label>
-                                            <input type="text" class="form-control" id="newIncomeCat"
-                                                name="newIncomeCat">
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="button" data-bs-dismiss="modal">Cancel</button>
-                                        <button type="submit" class="button">Save new</button>
-                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="button" data-bs-dismiss="modal">Cancel</button>
+                                    <button class="button" formaction="/settings/newIncomeCategory">Save
+                                        new</button>
                                 </div>
                             </div>
                         </div>
-                        <br><br>
                     </div>
+                    <br><br>
                 </form>
                 <form method="post" id="editIncome">
                     <label>Incomes categories:</label>
@@ -144,6 +142,19 @@
             errorClass: 'error',
             rules: {
                 editIncomeName: {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 15
+                }
+            }
+            // messages: {
+            //     newIncomeName: 'Length between 3 and 15 chars'
+            // }
+        });
+        $('#newIncomeCat').validate({
+            errorClass: 'error',
+            rules: {
+                newIncomeCatName: {
                     required: true,
                     minlength: 3,
                     maxlength: 15

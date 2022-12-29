@@ -156,6 +156,19 @@ class Incomes extends \Core\Model
         return $stmt->execute();
 
     }
+
+    public static function newIncomeCategory($user_id, $newIncomeName)
+    {
+        $sql = 'INSERT INTO incomes_category_assigned_to_users (user_id, name) VALUES (:user_id, :newIncomeName)';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+        $stmt->bindValue(':newIncomeName', $newIncomeName, PDO::PARAM_STR);
+        
+        return $stmt->execute();
+    }
     
   
 }

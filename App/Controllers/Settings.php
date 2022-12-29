@@ -39,6 +39,21 @@ class Settings extends Authenticated
         ]);
     }
 
+    public function newIncomeCategoryAction()
+    {
+        $user_id = $this->user->id;
+        if (Incomes::newIncomeCategory($user_id, $_POST['newIncomeCatName'])) {
+
+            Flash::addMessage('Changes saved');
+            $this->redirect('/settings/show');
+        } else {
+            Flash::addMessage('Could not save new category!', FLASH::WARNING);
+            View::renderTemplate('/settings/settings.html', [
+                /*'user' => $this->user*/
+            ]);
+        }
+    }
+
     public function editIncomesAction()
     {
         if (Incomes::editIncomesCat($_POST['categoryIncomes'], $_POST['newIncomeName'])) {
@@ -46,7 +61,6 @@ class Settings extends Authenticated
             Flash::addMessage('Changes saved');
             $this->redirect('/settings/show');
         } else {
-
             Flash::addMessage('Could not save changes!', FLASH::WARNING);
             View::renderTemplate('/settings/settings.html', [
                 /*'user' => $this->user*/

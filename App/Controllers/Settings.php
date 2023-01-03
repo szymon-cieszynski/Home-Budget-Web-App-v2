@@ -115,4 +115,17 @@ class Settings extends Authenticated
             $this->redirect('/settings/show');
         }
     }
+
+    public function newPaymentMethodAction()
+    {
+        $user_id = $this->user->id;
+        if (Expenses::newPaymentMethod($user_id, $_POST['newPayMethodName'])) {
+
+            Flash::addMessage('New payment method added successfully.');
+            $this->redirect('/settings/show');
+        } else {
+            Flash::addMessage('Payment method already exists!', FLASH::DANGER);
+            $this->redirect('/settings/show');
+        }
+    }
 }

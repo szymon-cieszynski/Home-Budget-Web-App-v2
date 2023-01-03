@@ -207,4 +207,36 @@ class Expenses extends \Core\Model
 
         return $stmt->fetch();
     }
+
+    public static function newPaymentMethod($user_id, $newPayMethodName)
+    {
+        if(!static::checkIfPaymentMethodExists($user_id, $newPayMethodName))
+        {
+            $sql = 'INSERT INTO payment_methods_assigned_to_users (user_id, name) VALUES (:user_id, :newPayMethodName)';
+            $db = static::getDB();
+            $stmt = $db->prepare($sql);
+
+            $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+            $stmt->bindValue(':newPayMethodName', $newPayMethodName, PDO::PARAM_STR);
+            
+            return $stmt->execute();
+        }else{
+            return false;
+        }
+    }
+
+    private static function checkIfPaymentMethodExists($user_id, $newPayMethodName)
+    {
+        $sql = 'SELECT * FROM payment_methods_assigned_to_users WHERE user_id = :user_id AND name = :newPayMethodName';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+        $stmt->bindValue(':newPayMethodName', $newPayMethodName, PDO::PARAM_STR);
+        
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+        $stmt->execute();
+
+        return $stmt->fetch();
+    }
 }

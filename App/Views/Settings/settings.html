@@ -225,6 +225,115 @@
 
             </div>
         </div>
+
+        <div class="row">
+            <div class="col-sm-6 mb-2 bg-transparent border p-4">
+                <form method="post" id="newPaymentMeth">
+                    <header>
+                        <h3>Payment methods</h3>
+                    </header>
+                    <button type="button" class="button" data-bs-toggle="modal" data-bs-target="#newPaymentMethod">
+                        Add new
+                    </button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="newPaymentMethod" tabindex="-1" aria-labelledby="newPaymentMethodLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="newPaymentMethodLabel">Add new payment method
+                                    </h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label for="newPayMethodName">New payment method:</label>
+                                        <input type="text" class="form-control" id="newPayMethodName"
+                                            name="newPayMethodName">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="button" data-bs-dismiss="modal">Cancel</button>
+                                    <button class="button" formaction="/settings/newPaymentMethod">Save
+                                        new</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br><br>
+                </form>
+                <form method="post" id="editMeth">
+                    <label>Expenses categories:</label>
+                    <select id="categoryExpenses" name="categoryExpenses" class="form-control" required="true">
+                        <option value="">--Your current expenses categories--</option>
+                        {% for category in expense_cat %}
+                        <option value={{ category.id }}> {{ category.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <div id="modalButtonsExpense" class="form-group mt-2" hidden>
+                        <button type="button" class="button" data-bs-toggle="modal" data-bs-target="#editExpenseCat">
+                            Edit
+                        </button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="editExpenseCat" tabindex="-1" aria-labelledby="editExpenseCatLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="editExpenseCatLabel">Edit category</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="editExpenseName">New category name:</label>
+                                            <input type="text" class="form-control" id="editExpenseName"
+                                                name="editExpenseName">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="button" data-bs-dismiss="modal">Cancel</button>
+
+                                        <button class="button" formaction="/settings/editExpenses">Save
+                                            changes</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Button trigger modal DELETE expense-->
+                        <button type="button" class="button" data-bs-toggle="modal" data-bs-target="#deleteExpenseCat">
+                            Delete
+                        </button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="deleteExpenseCat" tabindex="-1"
+                            aria-labelledby="deleteExpenseCatLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="deleteExpenseCatLabel">Delete category</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <span style="color: red">Are you sure? It will delete all expenses in
+                                                selected category!</span>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="button" data-bs-dismiss="modal">Cancel</button>
+                                        <button class="button" formaction="/settings/deleteExpenses">Delete</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
     </div>
 </section>
 

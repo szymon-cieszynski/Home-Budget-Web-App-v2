@@ -223,6 +223,25 @@ class Expenses extends \Core\Model
         return $stmt->execute();
     }
 
+    public static function deletePaymentMethod($payment_id)
+    {
+        $sql = 'DELETE FROM payment_methods_assigned_to_users
+            WHERE id = :payment_id';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':payment_id', $payment_id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $sql = 'DELETE FROM expenses
+            WHERE payment_method_assigned_to_user_id = :payment_id';
+
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':payment_id', $payment_id, PDO::PARAM_INT);
+        return $stmt->execute();
+
+    }
+
     public static function newPaymentMethod($user_id, $newPayMethodName)
     {
         if(!static::checkIfPaymentMethodExists($user_id, $newPayMethodName))

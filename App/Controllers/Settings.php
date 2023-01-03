@@ -140,4 +140,16 @@ class Settings extends Authenticated
             $this->redirect('/settings/show');
         }
     }
+
+    public function deletePaymentMethodAction()
+    {
+        if (Expenses::deletePaymentMethod($_POST['paymentMethods'])) {
+
+            Flash::addMessage('Payment method deleted succesfully.');
+            $this->redirect('/settings/show');
+        } else {
+            Flash::addMessage('Could not delete payment method!', FLASH::DANGER);
+            $this->redirect('/settings/show');
+        }
+    }
 }

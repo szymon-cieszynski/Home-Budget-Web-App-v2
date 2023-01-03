@@ -303,28 +303,31 @@
                         </div>
 
                         <!-- Button trigger modal DELETE expense-->
-                        <button type="button" class="button" data-bs-toggle="modal" data-bs-target="#deleteExpenseCat">
+                        <button type="button" class="button" data-bs-toggle="modal"
+                            data-bs-target="#deletePaymentMethod">
                             Delete
                         </button>
                         <!-- Modal -->
-                        <div class="modal fade" id="deleteExpenseCat" tabindex="-1"
-                            aria-labelledby="deleteExpenseCatLabel" aria-hidden="true">
+                        <div class="modal fade" id="deletePaymentMethod" tabindex="-1"
+                            aria-labelledby="deletePaymentMethodLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="deleteExpenseCatLabel">Delete category</h1>
+                                        <h1 class="modal-title fs-5" id="deletePaymentMethodLabel">Delete payment method
+                                        </h1>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
                                         <div class="form-group">
-                                            <span style="color: red">Are you sure? It will delete all expenses in
-                                                selected category!</span>
+                                            <span style="color: red">Are you sure? It will delete all expenses with this
+                                                payment method!</span>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="button" data-bs-dismiss="modal">Cancel</button>
-                                        <button class="button" formaction="/settings/deleteExpenses">Delete</button>
+                                        <button class="button"
+                                            formaction="/settings/deletePaymentMethod">Delete</button>
                                     </div>
                                 </div>
                             </div>

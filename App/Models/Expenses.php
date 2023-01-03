@@ -141,4 +141,136 @@ class Expenses extends \Core\Model
 
         return number_format($sumExpenses, 2, '.', '');
     }
+
+    public static function editExpensesCat($category_id, $newExpenseName)
+    {
+        $sql = 'UPDATE expenses_category_assigned_to_users
+            SET name = :newExpenseName
+            WHERE id = :category_id';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':newExpenseName', $newExpenseName, PDO::PARAM_STR);
+        $stmt->bindValue(':category_id', $category_id, PDO::PARAM_STR);
+
+        return $stmt->execute();
+    }
+
+    public static function deleteExpensesCat($category_id)
+    {
+        $sql = 'DELETE FROM expenses_category_assigned_to_users
+            WHERE id = :category_id';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':category_id', $category_id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $sql = 'DELETE FROM expenses
+            WHERE expense_category_assigned_to_user_id = :category_id';
+
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':category_id', $category_id, PDO::PARAM_INT);
+        return $stmt->execute();
+
+    }
+
+    public static function newExpenseCategory($user_id, $newExpenseName)
+    {
+        if(!static::checkIfCategoryExists($user_id, $newExpenseName))
+        {
+            $sql = 'INSERT INTO expenses_category_assigned_to_users (user_id, name) VALUES (:user_id, :newExpenseName)';
+            $db = static::getDB();
+            $stmt = $db->prepare($sql);
+
+            $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+            $stmt->bindValue(':newExpenseName', $newExpenseName, PDO::PARAM_STR);
+            
+            return $stmt->execute();
+        }else{
+            return false;
+        }
+    }
+  
+    private static function checkIfCategoryExists($user_id, $newExpenseName)
+    {
+        $sql = 'SELECT * FROM expenses_category_assigned_to_users WHERE user_id = :user_id AND name = :newExpenseName';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+        $stmt->bindValue(':newExpenseName', $newExpenseName, PDO::PARAM_STR);
+        
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+        $stmt->execute();
+
+        return $stmt->fetch();
+    }
+
+    public static function editPaymentMethod($payment_id, $newMethodName)
+    {
+        $sql = 'UPDATE payment_methods_assigned_to_users
+            SET name = :newMethodName
+            WHERE id = :payment_id';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':newMethodName', $newMethodName, PDO::PARAM_STR);
+        $stmt->bindValue(':payment_id', $payment_id, PDO::PARAM_STR);
+
+        return $stmt->execute();
+    }
+
+    public static function deletePaymentMethod($payment_id)
+    {
+        $sql = 'DELETE FROM payment_methods_assigned_to_users
+            WHERE id = :payment_id';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':payment_id', $payment_id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $sql = 'DELETE FROM expenses
+            WHERE payment_method_assigned_to_user_id = :payment_id';
+
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':payment_id', $payment_id, PDO::PARAM_INT);
+        return $stmt->execute();
+
+    }
+
+    public static function newPaymentMethod($user_id, $newPayMethodName)
+    {
+        if(!static::checkIfPaymentMethodExists($user_id, $newPayMethodName))
+        {
+            $sql = 'INSERT INTO payment_methods_assigned_to_users (user_id, name) VALUES (:user_id, :newPayMethodName)';
+            $db = static::getDB();
+            $stmt = $db->prepare($sql);
+
+            $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+            $stmt->bindValue(':newPayMethodName', $newPayMethodName, PDO::PARAM_STR);
+            
+            return $stmt->execute();
+        }else{
+            return false;
+        }
+    }
+
+    private static function checkIfPaymentMethodExists($user_id, $newPayMethodName)
+    {
+        $sql = 'SELECT * FROM payment_methods_assigned_to_users WHERE user_id = :user_id AND name = :newPayMethodName';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+        $stmt->bindValue(':newPayMethodName', $newPayMethodName, PDO::PARAM_STR);
+        
+        $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+        $stmt->execute();
+
+        return $stmt->fetch();
+    }
 }

@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile{% endblock %}
+
+{% block footer %}
+<script src="/js/hideShowPassword.min.js"></script>
+<script src="/js/app.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+        var userId = '{{ user.id }}';
+
+        /**
+         * Validate the form
+         */
+        $('#formProfile').validate({
+            rules: {
+                name: 'required',
+                email: {
+                    required: true,
+                    email: true,
+                    remote: {
+                        url: '/account/validate-email',
+                        data: {
+                            ignore_id: function () {
+                                return userId;
+                            }
+                        }
+                    }
+                },
+                password: {
+                    minlength: 6,
+                    validPassword: true
+                }
+            },
+            messages: {
+                email: {
+                    remote: 'email already taken'
+                }
+            }
+        });
+        /**
+          * Show password toggle button
+          */
+        $('#inputPassword').hideShowPassword({
+            show: false,
+            innerToggle: 'focus',
+            styles: {
+                position: 'absolute'
+            }
+        });
+    });
+</script>
+
+{% endblock %}
+
+{% block body %}
+
+{% if user.errors is not empty %}
+<p>Errors:</p>
+<ul>
+    {% for error in user.errors %}
+    <li>{{ error }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+<section class="editProfile">
+    <div class="container my-3">
+        <header>
+            <h1>Edit you profile form</h1>
+            <p>See your profile details and edit them if you need.</p>
+        </header>
+        <form method="post" id="formProfile" action="/profile/update">
+            <div class="row g-2">
+                <div class="col-sm-8">
+                    <div class="form-group mb-4">
+                        <label for="inputName">Name:</label>
+                        <input id="inputName" name="username" placeholder="Name" value="{{ user.username }}" required
+                            class="form-control" />
+                    </div>
+                    <div class="form-group mb-4">
+                        <label for="inputEmail">Email address:</label>
+                        <input id="inputEmail" name="email" placeholder="email address" value="{{ user.email }}"
+                            required type="email" class="form-control" />
+                    </div>
+                    <div class="form-group mb-4">
+                        <label for="inputPassword">Password</label>
+                        <input type="password" id="inputPassword" name="password" placeholder="Password"
+                            aria-describedby="helpBlock" class="help-block form-control" />
+                        <span id="helpBlock" class="help-block">Leave blank to keep current password</span>
+                    </div>
+                    <input type="submit" class="button" value="Save">
+                    <!-- <button type="submit" class="btn btn-default">Save</button> -->
+                    <input class="button" type="button" onclick="window.location.replace('/profile/show')"
+                        value="Cancel">
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+{% endblock %}

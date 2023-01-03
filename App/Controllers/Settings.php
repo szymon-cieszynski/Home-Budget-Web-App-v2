@@ -128,4 +128,16 @@ class Settings extends Authenticated
             $this->redirect('/settings/show');
         }
     }
+
+    public function editPaymentMethodAction()
+    {
+        if (Expenses::editPaymentMethod($_POST['paymentMethods'], $_POST['editMethodName'])) {
+
+            Flash::addMessage('Changes saved.');
+            $this->redirect('/settings/show');
+        } else {
+            Flash::addMessage('Could not save changes!', FLASH::WARNING);
+            $this->redirect('/settings/show');
+        }
+    }
 }

@@ -263,39 +263,39 @@
                     </div>
                     <br><br>
                 </form>
-                <form method="post" id="editMeth">
+                <form method="post" id="editPaymentMeth">
                     <label>Expenses categories:</label>
-                    <select id="categoryExpenses" name="categoryExpenses" class="form-control" required="true">
-                        <option value="">--Your current expenses categories--</option>
-                        {% for category in expense_cat %}
-                        <option value={{ category.id }}> {{ category.name }}</option>
+                    <select id="paymentMethods" name="paymentMethods" class="form-control" required="true">
+                        <option value="">--Your current payment methods--</option>
+                        {% for method in pay_method %}
+                        <option value={{ method.id }}> {{ method.name }}</option>
                         {% endfor %}
                     </select>
-                    <div id="modalButtonsExpense" class="form-group mt-2" hidden>
-                        <button type="button" class="button" data-bs-toggle="modal" data-bs-target="#editExpenseCat">
+                    <div id="modalButtonsMethods" class="form-group mt-2" hidden>
+                        <button type="button" class="button" data-bs-toggle="modal" data-bs-target="#editPaymentMethod">
                             Edit
                         </button>
                         <!-- Modal -->
-                        <div class="modal fade" id="editExpenseCat" tabindex="-1" aria-labelledby="editExpenseCatLabel"
-                            aria-hidden="true">
+                        <div class="modal fade" id="editPaymentMethod" tabindex="-1"
+                            aria-labelledby="editPaymentMethodLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="editExpenseCatLabel">Edit category</h1>
+                                        <h1 class="modal-title fs-5" id="editPaymentMethodLabel">Edit category</h1>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
                                         <div class="form-group">
-                                            <label for="editExpenseName">New category name:</label>
-                                            <input type="text" class="form-control" id="editExpenseName"
-                                                name="editExpenseName">
+                                            <label for="editMethodName">New payment method name:</label>
+                                            <input type="text" class="form-control" id="editMethodName"
+                                                name="editMethodName">
                                         </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="button" data-bs-dismiss="modal">Cancel</button>
 
-                                        <button class="button" formaction="/settings/editExpenses">Save
+                                        <button class="button" formaction="/settings/editPaymentMethod">Save
                                             changes</button>
                                     </div>
                                 </div>
@@ -358,6 +358,15 @@
             document.getElementById("modalButtonsExpense").hidden = false;
         } else {
             document.getElementById("modalButtonsExpense").hidden = true;
+        }
+    });
+
+    const select_methods = document.getElementById('paymentMethods');
+    select_methods.addEventListener('change', function handleChange(event) {
+        if (event.target.value) {
+            document.getElementById("modalButtonsMethods").hidden = false;
+        } else {
+            document.getElementById("modalButtonsMethods").hidden = true;
         }
     });
 

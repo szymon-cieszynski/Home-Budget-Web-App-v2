@@ -208,6 +208,21 @@ class Expenses extends \Core\Model
         return $stmt->fetch();
     }
 
+    public static function editPaymentMethod($payment_id, $newMethodName)
+    {
+        $sql = 'UPDATE payment_methods_assigned_to_users
+            SET name = :newMethodName
+            WHERE id = :payment_id';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':newMethodName', $newMethodName, PDO::PARAM_STR);
+        $stmt->bindValue(':payment_id', $payment_id, PDO::PARAM_STR);
+
+        return $stmt->execute();
+    }
+
     public static function newPaymentMethod($user_id, $newPayMethodName)
     {
         if(!static::checkIfPaymentMethodExists($user_id, $newPayMethodName))

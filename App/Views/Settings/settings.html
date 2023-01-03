@@ -281,7 +281,7 @@
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="editPaymentMethodLabel">Edit category</h1>
+                                        <h1 class="modal-title fs-5" id="editPaymentMethodLabel">Edit method</h1>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
                                     </div>
@@ -414,6 +414,25 @@
                 }
             }
         });
+        $('#newPaymentMeth').validate({
+            rules: {
+                newPayMethodName: {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 10
+                }
+            }
+        });
+        $('#editPaymentMeth').validate({
+            rules: {
+                editMethodName: {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 10
+                }
+            }
+        });
     });
+
 </script>
 {% endblock %}

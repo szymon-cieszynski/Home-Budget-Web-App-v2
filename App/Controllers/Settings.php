@@ -116,6 +116,18 @@ class Settings extends Authenticated
         }
     }
 
+    public function setLimitAction()
+    {
+        if (Expenses::setLimit($_POST['categoryExpenses'], $_POST['limit'])) {
+
+            Flash::addMessage('Limit added succesfully.');
+            $this->redirect('/settings/show');
+        } else {
+            Flash::addMessage('Could not set limit!', FLASH::DANGER);
+            $this->redirect('/settings/show');
+        }
+    }
+
     public function newPaymentMethodAction()
     {
         $user_id = $this->user->id;

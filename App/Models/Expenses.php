@@ -273,4 +273,19 @@ class Expenses extends \Core\Model
 
         return $stmt->fetch();
     }
+
+    public static function setLimit($category_id, $limit_exp)
+    {
+        $sql = 'UPDATE expenses_category_assigned_to_users
+            SET `limit` = :limit_exp
+            WHERE id = :category_id';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':limit_exp', $limit_exp, PDO::PARAM_INT);
+        $stmt->bindValue(':category_id', $category_id, PDO::PARAM_STR);
+
+        return $stmt->execute();
+    }
 }

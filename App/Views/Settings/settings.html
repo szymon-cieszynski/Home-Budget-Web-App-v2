@@ -220,6 +220,35 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- Button trigger modal SET LIMIT expense-->
+                        <button type="button" class="button" data-bs-toggle="modal" data-bs-target="#setLimit">
+                            Set limit
+                        </button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="setLimit" tabindex="-1" aria-labelledby="setLimitLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="setLimitLabel">Set limit for monthly expenses
+                                        </h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="setLimit">Monthly limit for choosen category:</label>
+                                            <input type="number" placeholder="PLN" id="setLimit" name="setLimit"
+                                                step="0.01" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="button" data-bs-dismiss="modal">Cancel</button>
+                                        <button class="button" formaction="/settings/setLimit">Set</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </form>
 

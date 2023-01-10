@@ -38,7 +38,8 @@ class Settings extends Authenticated
             /*'user' => $this->user,*/
             'income_cat' => Incomes::getIncomeCategories($user_id),
             'expense_cat' => Expenses::getExpenseCategories($user_id),
-            'pay_method' => Expenses::getPaymentMethods($user_id)
+            'pay_method' => Expenses::getPaymentMethods($user_id),
+            var_dump(Expenses::getExpenseCategories($user_id))
         ]);
     }
 

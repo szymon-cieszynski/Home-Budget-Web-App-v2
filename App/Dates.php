@@ -18,14 +18,15 @@ class Dates {
         }
 
         if ($period == 'prevM') {
-            $previousMonth = '';
+             $previousMonth = '';
 
-            if ($current_year == '01') {
-                $current_year == '12';
-            }
+            // if ($current_year == '01') {
+            //     $current_year == '12';
+            // }
 
             if ($currentMonth == '01') {
-                $previousMonth == '12';
+                $previousMonth = '12';
+                $current_year = (int)$current_year -1;
             } else {
                 $previousMonth = (int)$currentMonth - 1;
             }

@@ -159,10 +159,24 @@
                     <select id="categoryExpenses" name="categoryExpenses" class="form-control" required="true">
                         <option value="">--Your current expenses categories--</option>
                         {% for category in expense_cat %}
+                        {% if category.limit %}
+                        <option value={{ category.id }} style="color: red"> {{ category.name }}, Limit: {{
+                            category.limit }} PLN</option>
+                        {% else %}
                         <option value={{ category.id }}> {{ category.name }}</option>
+                        {% endif %}
                         {% endfor %}
                     </select>
+                    <h1>
+                        {{ limit }}
+                    </h1>
+
                     <div id="modalButtonsExpense" class="form-group mt-2" hidden>
+                        <!-- <h1> {% for category in expense_cat %}
+                            {{ category.id }}> {{ category.name }}
+                            {% endfor %}
+                        </h1> -->
+
                         <button type="button" class="button" data-bs-toggle="modal" data-bs-target="#editExpenseCat">
                             Edit
                         </button>
@@ -404,7 +418,6 @@
 
     $(document).ready(function () {
         $('#editIncome').validate({
-            // errorClass: 'error',
             rules: {
                 editIncomeName: {
                     required: true,
@@ -414,7 +427,6 @@
             }
         });
         $('#newIncomeCat').validate({
-            // errorClass: 'error',
             rules: {
                 newIncomeCatName: {
                     required: true,
@@ -424,17 +436,20 @@
             }
         });
         $('#editExpense').validate({
-            // errorClass: 'error',
             rules: {
                 editExpenseName: {
                     required: true,
                     minlength: 3,
                     maxlength: 15
+                },
+                limit: {
+                    required: true,
+                    max: 10000,
+                    min: "0.01"
                 }
             }
         });
         $('#newExpenseCat').validate({
-            // errorClass: 'error',
             rules: {
                 newExpenseCatName: {
                     required: true,

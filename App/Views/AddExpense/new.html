@@ -2,6 +2,7 @@
 
 {% block title %}Add Expense{% endblock %}
 {% block footer %}
+<!-- <script src="/js/limit.js"></script> -->
 <script>
     $(document).ready(function () {
         $('#formAddExpense').validate({
@@ -89,6 +90,7 @@
                             <option value={{category.id}}> {{category.name}}</option>
                             {% endfor %}
                         </select>
+                        <h5 id="limit" style="color: red"></h5>
                     </div>
                 </div>
 
@@ -111,4 +113,48 @@
     </div>
 </section>
 
+<script>
+    const category = document.querySelector('#category');
+    const limitHeading = document.getElementById("limit");
+
+    category.addEventListener("change", async function () {
+        const json = await getLimitForCategory();
+        limitHeading.textContent = `Limit: ${json.limit}`;
+        console.log(json);
+    });
+
+    const getLimitForCategory = async () => {
+        const category_id = category.value;
+        const res = await fetch(`http://localhost:8080/api/limit/${category_id}`);
+        const data = await res.json();
+        return data;
+    }
+
+
+    // const category = document.querySelector('#category');
+    // category.addEventListener("change", async function () {
+    //     const selectedValue = this.value;
+    //     const json = await getLimitForCategory({ id: selectedValue });
+    //     // const limit = json.limit;
+
+    //     const limitHeading = document.getElementById("limit");
+    //     limitHeading.textContent = `Limit: ${json.limit}`;
+
+    //     console.log(json);
+
+    // });
+    // const getLimitForCategory = async (category) => {
+    //     const res = await fetch(`http://localhost:8080/api/limit/${category.id}`);
+    //     const data = await res.json();
+    //     return data;
+    //     // limitHeading.textContent = `Limit: ${JSON.stringify(data)}`;
+    // }
+
+
+    //zmiana kategorii
+    // const checkCategory = async (category) => {
+    //     await getLimitForCategory(category);
+    //     await checkLimit();
+    // }
+</script>
 {% endblock %}

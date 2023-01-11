@@ -38,7 +38,8 @@ class Settings extends Authenticated
             /*'user' => $this->user,*/
             'income_cat' => Incomes::getIncomeCategories($user_id),
             'expense_cat' => Expenses::getExpenseCategories($user_id),
-            'pay_method' => Expenses::getPaymentMethods($user_id)
+            'pay_method' => Expenses::getPaymentMethods($user_id),
+            // var_dump(Expenses::getExpenseCategories($user_id))
         ]);
     }
 
@@ -112,6 +113,30 @@ class Settings extends Authenticated
             $this->redirect('/settings/show');
         } else {
             Flash::addMessage('Could not delete category!', FLASH::DANGER);
+            $this->redirect('/settings/show');
+        }
+    }
+
+    public function setLimitAction()
+    {
+        if (Expenses::setLimit($_POST['categoryExpenses'], $_POST['limit'])) {
+
+            Flash::addMessage('Limit added succesfully.');
+            $this->redirect('/settings/show');
+        } else {
+            Flash::addMessage('Could not set limit!', FLASH::DANGER);
+            $this->redirect('/settings/show');
+        }
+    }
+
+    public function unsetLimitAction()
+    {
+        if (Expenses::unsetLimit($_POST['categoryExpenses'])) {
+
+            Flash::addMessage('Limit unsetted succesfully.');
+            $this->redirect('/settings/show');
+        } else {
+            Flash::addMessage('Could not unset limit!', FLASH::DANGER);
             $this->redirect('/settings/show');
         }
     }

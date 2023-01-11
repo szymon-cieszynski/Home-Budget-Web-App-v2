@@ -39,7 +39,7 @@ class Settings extends Authenticated
             'income_cat' => Incomes::getIncomeCategories($user_id),
             'expense_cat' => Expenses::getExpenseCategories($user_id),
             'pay_method' => Expenses::getPaymentMethods($user_id),
-            var_dump(Expenses::getExpenseCategories($user_id))
+            // var_dump(Expenses::getExpenseCategories($user_id))
         ]);
     }
 
@@ -125,6 +125,18 @@ class Settings extends Authenticated
             $this->redirect('/settings/show');
         } else {
             Flash::addMessage('Could not set limit!', FLASH::DANGER);
+            $this->redirect('/settings/show');
+        }
+    }
+
+    public function unsetLimitAction()
+    {
+        if (Expenses::unsetLimit($_POST['categoryExpenses'])) {
+
+            Flash::addMessage('Limit unsetted succesfully.');
+            $this->redirect('/settings/show');
+        } else {
+            Flash::addMessage('Could not unset limit!', FLASH::DANGER);
             $this->redirect('/settings/show');
         }
     }

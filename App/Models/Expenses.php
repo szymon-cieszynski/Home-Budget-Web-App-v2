@@ -288,4 +288,32 @@ class Expenses extends \Core\Model
 
         return $stmt->execute();
     }
+
+    public static function unsetLimit($category_id)
+    {
+        $sql = 'UPDATE expenses_category_assigned_to_users
+            SET `limit` = null
+            WHERE id = :category_id';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        // $stmt->bindValue(':limit_exp', $limit_exp, PDO::PARAM_INT);
+        $stmt->bindValue(':category_id', $category_id, PDO::PARAM_STR);
+
+        return $stmt->execute();
+    }
+
+    public static function getLimitOfCategory($category_id)
+    {
+            $sql = 'SELECT `limit` FROM expenses_category_assigned_to_users WHERE id = :category_id';
+            $db = static::getDB();
+    
+            $stmt = $db->prepare($sql);
+            $stmt->bindValue(':category_id', $category_id, PDO::PARAM_INT);
+            $stmt->execute();
+    
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    }
 }

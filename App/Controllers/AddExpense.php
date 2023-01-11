@@ -50,8 +50,12 @@ class AddExpense extends \Core\Controller
             View::renderTemplate('AddExpense/new.html', [
                 'expenses' => $expense
               ]);
-        }
+        }     
+    }
 
-        
+    public function limitAction()
+    {
+        // $category_id = 3;
+        echo json_encode(Expenses::getLimitOfCategory($this->route_params['id']), JSON_UNESCAPED_UNICODE);
     }
 }

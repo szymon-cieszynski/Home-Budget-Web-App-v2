@@ -167,15 +167,8 @@
                         {% endif %}
                         {% endfor %}
                     </select>
-                    <h1>
-                        {{ limit }}
-                    </h1>
 
                     <div id="modalButtonsExpense" class="form-group mt-2" hidden>
-                        <!-- <h1> {% for category in expense_cat %}
-                            {{ category.id }}> {{ category.name }}
-                            {% endfor %}
-                        </h1> -->
 
                         <button type="button" class="button" data-bs-toggle="modal" data-bs-target="#editExpenseCat">
                             Edit
@@ -236,7 +229,7 @@
                         </div>
                         <!-- Button trigger modal SET LIMIT expense-->
                         <button type="button" class="button" data-bs-toggle="modal" data-bs-target="#setLimit">
-                            Set limit
+                            Limit
                         </button>
                         <!-- Modal -->
                         <div class="modal fade" id="setLimit" tabindex="-1" aria-labelledby="setLimitLabel"
@@ -257,6 +250,8 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer">
+                                        <button class="button" id="forced"
+                                            formaction="/settings/unsetLimit">Unset</button>
                                         <button type="button" class="button" data-bs-dismiss="modal">Cancel</button>
                                         <button class="button" formaction="/settings/setLimit">Set</button>
                                     </div>
@@ -415,8 +410,27 @@
             document.getElementById("modalButtonsMethods").hidden = true;
         }
     });
+    // document.getElementById("forced").addEventListener("click", changeRequired);
+    // function changeRequired() {
+    //     $('#editExpense').removeAttr('required')
+    //     document.getElementById("editExpense").required = false;
+    // }
+
 
     $(document).ready(function () {
+        // $("#forced").click(function () {
+        //     $("#limit").removeAttr("required");
+        // });
+        $("#forced").on("click", function () {
+            $("#limit").removeAttr("required");
+        });
+
+        $("#editExpense .modal-footer button[formaction='/settings/unsetLimit']").on("click", function () {
+            $("#limit").removeAttr("required");
+        });
+
+
+
         $('#editIncome').validate({
             rules: {
                 editIncomeName: {
@@ -435,6 +449,7 @@
                 }
             }
         });
+
         $('#editExpense').validate({
             rules: {
                 editExpenseName: {
@@ -446,9 +461,11 @@
                     required: true,
                     max: 10000,
                     min: "0.01"
+
                 }
             }
         });
+
         $('#newExpenseCat').validate({
             rules: {
                 newExpenseCatName: {
@@ -476,7 +493,13 @@
                 }
             }
         });
+        // document.getElementById("forced").addEventListener("click", changeRequired);
+        // function changeRequired() {
+        //     $('#editExpense').removeAttr('required')
+        //     document.getElementById("editExpense").required = false;
+        // }
     });
+
 
 </script>
 {% endblock %}

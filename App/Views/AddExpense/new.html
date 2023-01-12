@@ -91,6 +91,7 @@
                             {% endfor %}
                         </select>
                         <h5 id="limit" style="color: red"></h5>
+                        <h5 id="sum" style="color: red"></h5>
                     </div>
                 </div>
 
@@ -115,13 +116,29 @@
 
 <script>
     const category = document.querySelector('#category');
+    const date = document.querySelector('#date');
     const limitHeading = document.getElementById("limit");
+    const sumFromSelectedMonth = document.getElementById("sum");
 
     category.addEventListener("change", async function () {
         const json = await getLimitForCategory();
-        limitHeading.textContent = `Limit: ${json.limit}`;
+        limitHeading.textContent = `Limit: ${json.limit} PLN`;
         console.log(json);
     });
+
+    date.addEventListener("change", async function () {
+        const json1 = await getSumOfExpensesForSelectedMonth();
+        sumFromSelectedMonth.textContent = `Sum expenses from selected month: ${json1} PLN`;
+        console.log(json1);
+    });
+
+    const getSumOfExpensesForSelectedMonth = async () => {
+        const category_id = category.value;
+        const date_id = date.value;
+        const res = await fetch(`http://localhost:8080/api/sum/${category_id}?date=${date_id}`);
+        const data = await res.json();
+        return data;
+    }
 
     const getLimitForCategory = async () => {
         const category_id = category.value;

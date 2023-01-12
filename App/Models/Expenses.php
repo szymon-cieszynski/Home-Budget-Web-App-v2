@@ -283,7 +283,7 @@ class Expenses extends \Core\Model
         $db = static::getDB();
         $stmt = $db->prepare($sql);
 
-        $stmt->bindValue(':limit_exp', $limit_exp, PDO::PARAM_INT);
+        $stmt->bindValue(':limit_exp', $limit_exp, PDO::PARAM_STR);
         $stmt->bindValue(':category_id', $category_id, PDO::PARAM_STR);
 
         return $stmt->execute();
@@ -313,7 +313,39 @@ class Expenses extends \Core\Model
             $stmt->bindValue(':category_id', $category_id, PDO::PARAM_INT);
             $stmt->execute();
     
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public static function getSumOfExpensesForSelectedMonth($category_id, $date)
+    {
+        $firstDay = date('Y-m-01', strtotime($date));
+        $lastDay = date('Y-m-t', strtotime($date));
+        // echo $firstDay ;
+        // echo $lastDay ;
+        // echo $category_id;
+
+        // $sql = 'SELECT `name`, SUM(`amount`) AS sumOfExpense FROM `expenses`, `expenses_category_assigned_to_users`
+        // WHERE `expenses`.`expense_category_assigned_to_user_id`=`expenses_category_assigned_to_users`.`id` AND `expenses`.`user_id` = :user_id
+        // AND `expenses`.`date_of_expense`
+        // BETWEEN :minDate AND :maxDate GROUP BY `expense_category_assigned_to_user_id` ORDER BY sumOfExpense DESC';
+
+        $sql = 'SELECT SUM(`amount`) AS sumOfExpense FROM `expenses`
+        WHERE `expense_category_assigned_to_user_id` = :category_id AND date_of_expense BETWEEN :firstDay AND :lastDay';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':category_id', $category_id, PDO::PARAM_INT);
+        $stmt->bindValue(':firstDay', $firstDay, PDO::PARAM_STR);
+        $stmt->bindValue(':lastDay', $lastDay, PDO::PARAM_STR);
+        $stmt->execute();
+
+        // return $stmt->fetch(PDO::FETCH_ASSOC)['sumOfExpense'];
+        return $stmt->fetchColumn();
+
+
+        // return $stmt->debugDumpParams();
+
 
     }
 }

@@ -35,6 +35,9 @@ $router->add('addIncome', ['controller' => 'AddIncome', 'action' => 'new']);
 $router->add('addExpense', ['controller' => 'AddExpense', 'action' => 'new']);
 $router->add('settings', ['controller' => 'Settings', 'action' => 'show']);
 $router->add('api/limit/{id:[\d]+}', ['controller' => 'AddExpense', 'action' => 'limit']);
+$router->add('api/sum/{id:[\d]+}', ['controller' => 'AddExpense', 'action' => 'sum']);
+// $router->add('api/sum/{id:[\d]+}/date/{date:[\d]{4}\-[\d]{2}\-[\d]{2}}', ['controller' => 'AddExpense', 'action' => 'sum']);
+
 $router->add('{controller}/{action}');
     
 $router->dispatch($_SERVER['QUERY_STRING']);

@@ -159,7 +159,7 @@
                     <select id="categoryExpenses" name="categoryExpenses" class="form-control" required="true">
                         <option value="">--Your current expenses categories--</option>
                         {% for category in expense_cat %}
-                        {% if category.limit %}
+                        {% if category.limit>0 %}
                         <option value={{ category.id }} style="color: red"> {{ category.name }}, Limit: {{
                             category.limit }} PLN</option>
                         {% else %}

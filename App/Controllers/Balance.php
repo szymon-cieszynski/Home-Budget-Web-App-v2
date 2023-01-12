@@ -14,9 +14,6 @@ use \App\Dates;
  */
 class Balance extends \Core\Controller
 {
-    /**
-     * Show the expense page
-     */
     public function newAction()
     {
         $this->requireLogin();

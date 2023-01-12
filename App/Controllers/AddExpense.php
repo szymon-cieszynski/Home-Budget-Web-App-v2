@@ -58,4 +58,11 @@ class AddExpense extends \Core\Controller
         // $category_id = 3;
         echo json_encode(Expenses::getLimitOfCategory($this->route_params['id']), JSON_UNESCAPED_UNICODE);
     }
+
+    public function sumAction()
+    {
+        echo json_encode(Expenses::getSumOfExpensesForSelectedMonth($this->route_params['id'], $_GET['date']), JSON_UNESCAPED_UNICODE);
+        
+        //  var_dump(Expenses::getSumOfExpensesForSelectedMonth($this->route_params['id'], $_GET['date']));
+    }
 }

@@ -92,6 +92,7 @@
                         </select>
                         <h5 id="limit" style="color: red"></h5>
                         <h5 id="sum" style="color: red"></h5>
+                        <span id="difference"></span>
                     </div>
                 </div>
 
@@ -119,6 +120,12 @@
     const date = document.querySelector('#date');
     const limitHeading = document.getElementById("limit");
     const sumFromSelectedMonth = document.getElementById("sum");
+    const difference = document.getElementById('difference');
+
+    const calculateLimits = (json, json1) => {
+        const diff = json.limit - json1;
+        difference.textContent = `Difference: ${diff} PLN`;
+    }
 
     category.addEventListener("change", async function () {
         const json = await getLimitForCategory();
@@ -127,9 +134,11 @@
     });
 
     date.addEventListener("change", async function () {
+        const json = await getLimitForCategory();
         const json1 = await getSumOfExpensesForSelectedMonth();
-        sumFromSelectedMonth.textContent = `Sum expenses from selected month: ${json1} PLN`;
+        sumFromSelectedMonth.textContent = `Sum expenses of from selected month: ${json1} PLN`;
         console.log(json1);
+        calculateLimits(json, json1);
     });
 
     const getSumOfExpensesForSelectedMonth = async () => {

@@ -7,8 +7,6 @@ use \App\Auth;
 
 /**
  * Home controller
- *
- * PHP version 7.0
  */
 class Home extends \Core\Controller
 {

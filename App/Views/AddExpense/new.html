@@ -92,7 +92,7 @@
                         </select>
                         <h5 id="limit" style="color: red"></h5>
                         <h5 id="sum" style="color: red"></h5>
-                        <span id="difference"></span>
+                        <h5 id="difference"></h5>
                     </div>
                 </div>
 
@@ -108,7 +108,7 @@
                 <div class="col-sm-12 my-1">
                     <input type="submit" class="button" value="Add expense">
                     <input class="button" type="button" onclick="window.location.replace('/')" value="Cancel">
-                    <!-- <input type="submit" class="button" value="Cancel"> -->
+
                 </div>
             </div>
         </form>
@@ -121,66 +121,79 @@
     const limitHeading = document.getElementById("limit");
     const sumFromSelectedMonth = document.getElementById("sum");
     const difference = document.getElementById('difference');
+    let selectedCategory = null;
+    let selectedDate = null;
 
-    const calculateLimits = (json, json1) => {
-        const diff = json.limit - json1;
-        difference.textContent = `Difference: ${diff} PLN`;
+    const renderOnDom = (json_limit, json_sum, diff) => {
+        if (json_limit === null/* || json_limit === 0*/) {
+            limitHeading.textContent = '';
+            difference.textContent = '';
+            sumFromSelectedMonth.textContent = '';
+        } else {
+            limitHeading.textContent = `Limit for selected category: ${json_limit} PLN`;
+
+            if (json_sum > 0) {
+                sumFromSelectedMonth.textContent = `Sum expenses from selected month: ${json_sum} PLN`;
+            } else {
+                sumFromSelectedMonth.style.color = "green";
+                sumFromSelectedMonth.textContent = `You have no expenses in selected month.`;
+            }
+
+            if (diff > 0) {
+                diff = parseFloat(diff).toFixed(2);
+                difference.style.color = "green";
+                difference.textContent = `Still avaliable from your limit: ${diff} PLN`;
+            } else {
+                difference.style.color = "red";
+                difference.textContent = `Your budget is exceeded! Difference: ${diff} PLN`;
+            }
+        }
+    }
+
+    const calculateLimits = (json_limit, json_sum) => {
+        const diff = json_limit - json_sum;
+        console.log(diff);
+        return diff;
+    }
+
+    const checkLimit = async () => {
+
+        const json_limit = await getLimitForCategory(selectedCategory);
+        const json_sum = await getSumOfExpensesForSelectedMonth(selectedCategory, selectedDate);
+
+        console.log(json_sum);
+        const diff = calculateLimits(json_limit, json_sum);
+        renderOnDom(json_limit, json_sum, diff);
     }
 
     category.addEventListener("change", async function () {
-        const json = await getLimitForCategory();
-        limitHeading.textContent = `Limit: ${json.limit} PLN`;
-        console.log(json);
+        selectedCategory = category.value;
+        if (selectedCategory && selectedDate) {
+            checkLimit();
+        } else {
+            renderOnDom(null, null, null);
+        }
     });
 
     date.addEventListener("change", async function () {
-        const json = await getLimitForCategory();
-        const json1 = await getSumOfExpensesForSelectedMonth();
-        sumFromSelectedMonth.textContent = `Sum expenses of from selected month: ${json1} PLN`;
-        console.log(json1);
-        calculateLimits(json, json1);
+        selectedDate = date.value;
+        if (selectedCategory && selectedDate) {
+            checkLimit();
+        } else {
+            renderOnDom(null, null, null);
+        }
     });
 
-    const getSumOfExpensesForSelectedMonth = async () => {
-        const category_id = category.value;
-        const date_id = date.value;
+    const getSumOfExpensesForSelectedMonth = async (category_id, date_id) => {
         const res = await fetch(`http://localhost:8080/api/sum/${category_id}?date=${date_id}`);
         const data = await res.json();
         return data;
     }
 
-    const getLimitForCategory = async () => {
-        const category_id = category.value;
+    const getLimitForCategory = async (category_id) => {
         const res = await fetch(`http://localhost:8080/api/limit/${category_id}`);
-        const data = await res.json();
-        return data;
+        const json_lim = await res.json();
+        return json_lim;
     }
-
-
-    // const category = document.querySelector('#category');
-    // category.addEventListener("change", async function () {
-    //     const selectedValue = this.value;
-    //     const json = await getLimitForCategory({ id: selectedValue });
-    //     // const limit = json.limit;
-
-    //     const limitHeading = document.getElementById("limit");
-    //     limitHeading.textContent = `Limit: ${json.limit}`;
-
-    //     console.log(json);
-
-    // });
-    // const getLimitForCategory = async (category) => {
-    //     const res = await fetch(`http://localhost:8080/api/limit/${category.id}`);
-    //     const data = await res.json();
-    //     return data;
-    //     // limitHeading.textContent = `Limit: ${JSON.stringify(data)}`;
-    // }
-
-
-    //zmiana kategorii
-    // const checkCategory = async (category) => {
-    //     await getLimitForCategory(category);
-    //     await checkLimit();
-    // }
 </script>
 {% endblock %}

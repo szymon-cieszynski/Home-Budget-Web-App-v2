@@ -22,7 +22,7 @@ class Settings extends Authenticated
     protected function before()
     {
         parent::before();
-        $this->user = Auth::getUser(); //unikamy redundacji kodu
+        $this->user = Auth::getUser();
     }
 
     /**
@@ -35,11 +35,9 @@ class Settings extends Authenticated
         $user_id = $this->user->id;
 
         View::renderTemplate('Settings/settings.html', [
-            /*'user' => $this->user,*/
             'income_cat' => Incomes::getIncomeCategories($user_id),
             'expense_cat' => Expenses::getExpenseCategories($user_id),
-            'pay_method' => Expenses::getPaymentMethods($user_id),
-            // var_dump(Expenses::getExpenseCategories($user_id))
+            'pay_method' => Expenses::getPaymentMethods($user_id)
         ]);
     }
 

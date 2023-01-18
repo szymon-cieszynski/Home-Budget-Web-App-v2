@@ -1,5 +1,8 @@
-Account activation
+Home Budget - account activation e-mail.
 
 Thank you for signing up. Please click the following link to activate your account:
 
 {{ url }}
+
+
+2023, developed by Szymon Cieszyński

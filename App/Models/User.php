@@ -18,7 +18,7 @@ class User extends \Core\Model
      *
      * @var array
      */
-    public $errors = []; //tablica z błędami
+    public $errors = [];
 
     /**
      * Class constructor

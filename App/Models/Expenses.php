@@ -5,6 +5,7 @@ namespace App\Models;
 use PDO;
 use \Core\View;
 use \App\Auth;
+use \App\Dates;
 
 class Expenses extends \Core\Model
 {
@@ -63,8 +64,11 @@ class Expenses extends \Core\Model
         //date
         if ($this->date == '') {
             $this->errors[] = 'Date is required';
-        }/*else if((int)($this->date<wartosc))
-        $this->errors[] = 'Date should be after 01.01.2022';*/
+        }else if($this->date < Dates::minimumDate)
+        {
+            $this->errors[] = 'Date should be after 01.01.2022';
+        }
+        
 
         //category
         if ($this->category == '') {
@@ -83,8 +87,6 @@ class Expenses extends \Core\Model
 
     public static function getExpenseCategories($user_id)
     {
-        /*$user= Auth::getUser();
-        $user_id = $user->id;*/
         $sql = 'SELECT * FROM expenses_category_assigned_to_users WHERE user_id=:user_id';
         $db = static::getDB();
         $stmt = $db->prepare($sql);
@@ -96,8 +98,6 @@ class Expenses extends \Core\Model
 
     public static function getPaymentMethods($user_id)
     {
-        /*$user= Auth::getUser();
-        $user_id = $user->id;*/
         $sql = 'SELECT * FROM payment_methods_assigned_to_users WHERE user_id=:user_id';
         $db = static::getDB();
         $stmt = $db->prepare($sql);
@@ -357,10 +357,6 @@ class Expenses extends \Core\Model
 
         // return $stmt->fetch(PDO::FETCH_ASSOC)['sumOfExpense'];
         return $stmt->fetchColumn();
-
-
-        // return $stmt->debugDumpParams();
-
 
     }
 }

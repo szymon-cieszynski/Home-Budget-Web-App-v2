@@ -1,6 +1,22 @@
 {% extends 'base.html' %}
 
 {% block title %}Forgot password{% endblock %}
+{% block footer %}
+<script>
+    $(document).ready(function () {
+        $('#formForgot').validate({
+            rules: {
+                email: {
+                    required: true,
+                    email: true,
+                }
+            }
+        });
+    });
+
+</script>
+
+{% endblock %}
 
 {% block body %}
 
@@ -12,13 +28,16 @@
 
         <div class="row">
             <div class="col-sm-12 mb-4">
-                <form method="post" action="/password/request-reset">
+                <form method="post" action="/password/request-reset" id="formForgot">
                     <div class="form-group">
                         <label for="inputEmail">Email address</label>
                         <input type="email" id="inputEmail" name="email" placeholder="Email address" autofocus required
                             class="form-control" />
                     </div>
-                    <button type="submit" class="button">Send password reset</button>
+                    <div class="col-sm-12 my-1">
+                        <button type="submit" class="button">Send</button>
+                    </div>
+
                 </form>
             </div>
         </div>

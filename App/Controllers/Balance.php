@@ -44,11 +44,6 @@ class Balance extends \Core\Controller
             $sumIncomes = Incomes::getSumOfIncomes($user_incomes);
             $sumExpenses = Expenses::getSumOfExpenses($user_expenses);
 
-            //var_dump($user_incomes);
-            //var_dump($user_expenses);
-            
-            //var_dump($dataPointsIncomes);
-
             View::renderTemplate('Balance/balance.html',[
                 'user' => $_SESSION['user_id'],
                 'user_incomes' => $user_incomes,

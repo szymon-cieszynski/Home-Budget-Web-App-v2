@@ -27,7 +27,6 @@ class Signup extends \Core\Controller
             $this->redirect('/signup/success');
             
           } else {
-            //wyswietli ten sam formularz dla new lecz z błędami jakie sie pojawiły
             View::renderTemplate('Signup/new.html', [
               'user' => $user
             ]);

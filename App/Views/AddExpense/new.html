@@ -221,14 +221,7 @@
 
     date.addEventListener("change", async function () {
         selectedDate = date.value;
-        // insertedAmount = parseFloat(amount.value);
-        // insertedAmount = amount.value || 0;
-        // if (amount.value === "" || amount.value === "0") {
-        //     insertedAmount = 0;
-        // } else {
-        //     insertedAmount = parseFloat(amount.value);
-        // }
-        // selectedCategory = category.value;
+
         if (selectedCategory && selectedDate) {
             setTimeout(() => {
                 checkLimit(insertedAmount);

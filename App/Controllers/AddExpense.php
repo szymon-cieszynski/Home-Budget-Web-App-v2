@@ -29,7 +29,6 @@ class AddExpense extends \Core\Controller
             'expense_cat' => $expenses_cat,
             'pay_method' => $pay_method
         ]);
-        //var_dump($user_categories);
     }
 
     public function createAction()
@@ -55,14 +54,11 @@ class AddExpense extends \Core\Controller
 
     public function limitAction()
     {
-        // $category_id = 3;
         echo json_encode(Expenses::getLimitOfCategory($this->route_params['id']), JSON_UNESCAPED_UNICODE);
     }
 
     public function sumAction()
     {
         echo json_encode(Expenses::getSumOfExpensesForSelectedMonth($this->route_params['id'], $_GET['date']), JSON_UNESCAPED_UNICODE);
-        
-        //  var_dump(Expenses::getSumOfExpensesForSelectedMonth($this->route_params['id'], $_GET['date']));
     }
 }

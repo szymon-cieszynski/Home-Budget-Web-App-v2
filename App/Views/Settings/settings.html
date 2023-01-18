@@ -422,15 +422,6 @@
 
 
     $(document).ready(function () {
-        $("#forced").on("click", function () {
-            $("#limit").removeAttr("required");
-        });
-
-        $("#editExpense .modal-footer button[formaction='/settings/unsetLimit']").on("click", function () {
-            $("#limit").removeAttr("required");
-        });
-
-
 
         $('#editIncome').validate({
             rules: {

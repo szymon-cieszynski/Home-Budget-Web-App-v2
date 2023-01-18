@@ -136,7 +136,7 @@ class Settings extends Authenticated
             Flash::addMessage('Limit unsetted succesfully.');
             $this->redirect('/settings/show');
         } else {
-            Flash::addMessage('Could not unset limit!', FLASH::DANGER);
+            Flash::addMessage('Limit for this category is not set yet!', FLASH::DANGER);
             $this->redirect('/settings/show');
         }
     }

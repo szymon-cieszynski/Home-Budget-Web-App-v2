@@ -291,17 +291,39 @@ class Expenses extends \Core\Model
 
     public static function unsetLimit($category_id)
     {
-        $sql = 'UPDATE expenses_category_assigned_to_users
+
+        if(static::isLimitSetted($category_id))
+        {
+            $sql = 'UPDATE expenses_category_assigned_to_users
             SET `limit` = null
             WHERE id = :category_id';
 
-        $db = static::getDB();
-        $stmt = $db->prepare($sql);
+            $db = static::getDB();
+            $stmt = $db->prepare($sql);
 
-        // $stmt->bindValue(':limit_exp', $limit_exp, PDO::PARAM_INT);
-        $stmt->bindValue(':category_id', $category_id, PDO::PARAM_STR);
+            $stmt->bindValue(':category_id', $category_id, PDO::PARAM_STR);
 
-        return $stmt->execute();
+            return $stmt->execute();
+
+        }else
+        {
+            return false;
+        }
+        
+    }
+
+    private static function isLimitSetted($category_id)
+    {
+            $sql = 'SELECT * FROM expenses_category_assigned_to_users WHERE `limit` IS NOT NULL AND id = :category_id';
+
+            $db = static::getDB();
+            $stmt = $db->prepare($sql);
+
+            $stmt->bindValue(':category_id', $category_id, PDO::PARAM_STR);
+            $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+            $stmt->execute();
+
+            return $stmt->fetch();
     }
 
     public static function getLimitOfCategory($category_id)

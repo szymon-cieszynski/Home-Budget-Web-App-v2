@@ -260,6 +260,7 @@
                         </div>
                     </div>
                 </form>
+                <!-- Form for Unset action -->
                 <form method="post" id="limit-outside-modal" hidden>
                     <input type="hidden" name="categoryExpensesOutside" id="categoryExpensesOutside">
                 </form>
@@ -390,10 +391,8 @@
     select_income.addEventListener('change', function handleChange(event) {
         if (event.target.value) {
             document.getElementById("modalButtonsIncome").hidden = false;
-            // box.style.visibility = 'visible';
         } else {
             document.getElementById("modalButtonsIncome").hidden = true;
-            // box.style.visibility = 'hidden';
         }
     });
     const select_expense = document.getElementById('categoryExpenses');

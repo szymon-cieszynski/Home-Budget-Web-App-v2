@@ -5,6 +5,7 @@ namespace App\Models;
 use PDO;
 use \Core\View;
 use \App\Auth;
+use \App\Dates;
 
 class Expenses extends \Core\Model
 {
@@ -63,8 +64,11 @@ class Expenses extends \Core\Model
         //date
         if ($this->date == '') {
             $this->errors[] = 'Date is required';
-        }/*else if((int)($this->date<wartosc))
-        $this->errors[] = 'Date should be after 01.01.2022';*/
+        }else if($this->date < Dates::minimumDate)
+        {
+            $this->errors[] = 'Date should be after 01.01.2022';
+        }
+        
 
         //category
         if ($this->category == '') {
@@ -83,8 +87,6 @@ class Expenses extends \Core\Model
 
     public static function getExpenseCategories($user_id)
     {
-        /*$user= Auth::getUser();
-        $user_id = $user->id;*/
         $sql = 'SELECT * FROM expenses_category_assigned_to_users WHERE user_id=:user_id';
         $db = static::getDB();
         $stmt = $db->prepare($sql);
@@ -96,8 +98,6 @@ class Expenses extends \Core\Model
 
     public static function getPaymentMethods($user_id)
     {
-        /*$user= Auth::getUser();
-        $user_id = $user->id;*/
         $sql = 'SELECT * FROM payment_methods_assigned_to_users WHERE user_id=:user_id';
         $db = static::getDB();
         $stmt = $db->prepare($sql);
@@ -272,5 +272,91 @@ class Expenses extends \Core\Model
         $stmt->execute();
 
         return $stmt->fetch();
+    }
+
+    public static function setLimit($category_id, $limit_exp)
+    {
+        $sql = 'UPDATE expenses_category_assigned_to_users
+            SET `limit` = :limit_exp
+            WHERE id = :category_id';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':limit_exp', $limit_exp, PDO::PARAM_STR);
+        $stmt->bindValue(':category_id', $category_id, PDO::PARAM_STR);
+
+        return $stmt->execute();
+    }
+
+    public static function unsetLimit($category_id)
+    {
+
+        if(static::isLimitSetted($category_id))
+        {
+            $sql = 'UPDATE expenses_category_assigned_to_users
+            SET `limit` = null
+            WHERE id = :category_id';
+
+            $db = static::getDB();
+            $stmt = $db->prepare($sql);
+
+            $stmt->bindValue(':category_id', $category_id, PDO::PARAM_STR);
+
+            return $stmt->execute();
+
+        }else
+        {
+            return false;
+        }
+        
+    }
+
+    private static function isLimitSetted($category_id)
+    {
+            $sql = 'SELECT * FROM expenses_category_assigned_to_users WHERE `limit` IS NOT NULL AND id = :category_id';
+
+            $db = static::getDB();
+            $stmt = $db->prepare($sql);
+
+            $stmt->bindValue(':category_id', $category_id, PDO::PARAM_STR);
+            $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+            $stmt->execute();
+
+            return $stmt->fetch();
+    }
+
+    public static function getLimitOfCategory($category_id)
+    {
+            $sql = 'SELECT `limit` FROM expenses_category_assigned_to_users WHERE id = :category_id';
+            $db = static::getDB();
+    
+            $stmt = $db->prepare($sql);
+            $stmt->bindValue(':category_id', $category_id, PDO::PARAM_INT);
+            $stmt->execute();
+    
+            // return $stmt->fetch(PDO::FETCH_ASSOC);
+            return $stmt->fetchColumn();
+    }
+
+    public static function getSumOfExpensesForSelectedMonth($category_id, $date)
+    {
+        $firstDay = date('Y-m-01', strtotime($date));
+        $lastDay = date('Y-m-t', strtotime($date));
+
+        $sql = 'SELECT SUM(`amount`) AS sumOfExpense FROM `expenses`
+        WHERE `expense_category_assigned_to_user_id` = :category_id AND date_of_expense BETWEEN :firstDay AND :lastDay';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':category_id', $category_id, PDO::PARAM_INT);
+        $stmt->bindValue(':firstDay', $firstDay, PDO::PARAM_STR);
+        $stmt->bindValue(':lastDay', $lastDay, PDO::PARAM_STR);
+        $stmt->execute();
+
+        // return $stmt->fetch(PDO::FETCH_ASSOC)['sumOfExpense'];
+        return $stmt->fetchColumn();
+
     }
 }

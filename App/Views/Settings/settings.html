@@ -159,10 +159,17 @@
                     <select id="categoryExpenses" name="categoryExpenses" class="form-control" required="true">
                         <option value="">--Your current expenses categories--</option>
                         {% for category in expense_cat %}
+                        {% if category.limit>0 %}
+                        <option value={{ category.id }} style="color: red"> {{ category.name }}, Limit: {{
+                            category.limit }} PLN</option>
+                        {% else %}
                         <option value={{ category.id }}> {{ category.name }}</option>
+                        {% endif %}
                         {% endfor %}
                     </select>
+
                     <div id="modalButtonsExpense" class="form-group mt-2" hidden>
+
                         <button type="button" class="button" data-bs-toggle="modal" data-bs-target="#editExpenseCat">
                             Edit
                         </button>
@@ -220,7 +227,42 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- Button trigger modal SET LIMIT expense-->
+                        <button type="button" class="button" data-bs-toggle="modal" data-bs-target="#setLimit">
+                            Limit
+                        </button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="setLimit" tabindex="-1" aria-labelledby="setLimitLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="setLimitLabel">Set limit for monthly expenses
+                                        </h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="limit">Monthly limit for choosen category:</label>
+                                            <input type="number" placeholder="PLN" id="limit" name="limit" step="0.01"
+                                                class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="button" form="limit-outside-modal" id="unset"
+                                            formaction="/settings/unsetLimit">Unset</button>
+                                        <button type="button" class="button" data-bs-dismiss="modal">Cancel</button>
+                                        <button class="button" formaction="/settings/setLimit">Set</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                </form>
+                <!-- Form for Unset action -->
+                <form method="post" id="limit-outside-modal" hidden>
+                    <input type="hidden" name="categoryExpensesOutside" id="categoryExpensesOutside">
                 </form>
 
             </div>
@@ -349,10 +391,8 @@
     select_income.addEventListener('change', function handleChange(event) {
         if (event.target.value) {
             document.getElementById("modalButtonsIncome").hidden = false;
-            // box.style.visibility = 'visible';
         } else {
             document.getElementById("modalButtonsIncome").hidden = true;
-            // box.style.visibility = 'hidden';
         }
     });
     const select_expense = document.getElementById('categoryExpenses');
@@ -373,9 +413,17 @@
         }
     });
 
+    document.querySelector("#unset").addEventListener("click", function () {
+        let selectedCategoryId = document.querySelector("#categoryExpenses").value;
+        document.querySelector("#categoryExpensesOutside").value = selectedCategoryId;
+        console.log(selectedCategoryId);
+    });
+
+
+
     $(document).ready(function () {
+
         $('#editIncome').validate({
-            // errorClass: 'error',
             rules: {
                 editIncomeName: {
                     required: true,
@@ -385,7 +433,6 @@
             }
         });
         $('#newIncomeCat').validate({
-            // errorClass: 'error',
             rules: {
                 newIncomeCatName: {
                     required: true,
@@ -394,18 +441,24 @@
                 }
             }
         });
+
         $('#editExpense').validate({
-            // errorClass: 'error',
             rules: {
                 editExpenseName: {
                     required: true,
                     minlength: 3,
                     maxlength: 15
+                },
+                limit: {
+                    required: true,
+                    max: 10000,
+                    min: "0.01"
+
                 }
             }
         });
+
         $('#newExpenseCat').validate({
-            // errorClass: 'error',
             rules: {
                 newExpenseCatName: {
                     required: true,
@@ -433,6 +486,7 @@
             }
         });
     });
+
 
 </script>
 {% endblock %}

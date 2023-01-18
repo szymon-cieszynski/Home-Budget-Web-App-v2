@@ -5,6 +5,7 @@ namespace App\Models;
 use PDO;
 use \Core\View;
 use \App\Auth;
+use \App\Dates;
 
 class Incomes extends \Core\Model
 {
@@ -61,8 +62,10 @@ class Incomes extends \Core\Model
         //date
         if ($this->date == '') {
             $this->errors[] = 'Date is required';
-        }/*else if((int)($this->date<wartosc))
-        $this->errors[] = 'Date should be after 01.01.2022';*/
+        }else if($this->date < Dates::minimumDate)
+        {
+            $this->errors[] = 'Date should be after 01.01.2022';
+        }
 
         //category
         if ($this->category == '') {

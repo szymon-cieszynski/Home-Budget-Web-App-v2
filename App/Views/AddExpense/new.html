@@ -2,6 +2,7 @@
 
 {% block title %}Add Expense{% endblock %}
 {% block footer %}
+<!-- <script src="/js/limit.js"></script> -->
 <script>
     $(document).ready(function () {
         $('#formAddExpense').validate({
@@ -56,7 +57,8 @@
                 <div class="col-sm-6 mb-4">
                     <div class="form-group">
                         <label>Amount: PLN</label>
-                        <input type="number" id="amount" name="amount" step="0.01" class="form-control">
+                        <input type="number" id="amount" name="amount" step="0.01" class="form-control" min="0.01"
+                            max="1000000">
                     </div>
                 </div>
 
@@ -89,6 +91,9 @@
                             <option value={{category.id}}> {{category.name}}</option>
                             {% endfor %}
                         </select>
+                        <h5 id="limit" style="color: red"></h5>
+                        <h5 id="sum" style="color: red"></h5>
+                        <h5 id="difference"></h5>
                     </div>
                 </div>
 
@@ -104,11 +109,148 @@
                 <div class="col-sm-12 my-1">
                     <input type="submit" class="button" value="Add expense">
                     <input class="button" type="button" onclick="window.location.replace('/')" value="Cancel">
-                    <!-- <input type="submit" class="button" value="Cancel"> -->
+
                 </div>
             </div>
         </form>
     </div>
 </section>
 
+<script>
+    const category = document.querySelector('#category');
+    const date = document.querySelector('#date');
+    const amount = document.querySelector('#amount');
+    const limitHeading = document.getElementById("limit");
+    const sumFromSelectedMonth = document.getElementById("sum");
+    const difference = document.getElementById('difference');
+    let selectedCategory = null;
+    let selectedDate = null;
+    let json_sum = null;
+    let json_limit = null;
+    let insertedAmount = 0;
+
+    const clearData = () => {
+        limitHeading.textContent = '';
+        difference.textContent = '';
+        sumFromSelectedMonth.textContent = '';
+    }
+
+    const renderOnDom = (json_limit, json_sum, diff) => {
+
+        if (json_sum > 0) {
+            sumFromSelectedMonth.textContent = `Sum expenses from selected month: ${json_sum} PLN`;
+        } else {
+            sumFromSelectedMonth.style.color = "green";
+            sumFromSelectedMonth.textContent = `You have no expenses in selected month.`;
+        }
+
+        if (diff > 0/* || json_limit === NaN || json_sum === NaN || insertedAmount === NaN*/) {
+            diff = parseFloat(diff).toFixed(2);
+            difference.style.color = "green";
+            difference.textContent = `Still available from your limit: ${diff} PLN`;
+        } else if (diff === 0) {
+            diff = parseFloat(diff).toFixed(2);
+            difference.style.color = "red";
+            difference.textContent = `Your budget is close to exceeded! Difference: ${diff} PLN`;
+        } else {
+            diff = parseFloat(diff).toFixed(2);
+            difference.style.color = "red";
+            difference.textContent = `Your budget is exceeded! Difference: ${diff} PLN`;
+        }
+
+    }
+
+
+    const calculateLimits = (json_limit, json_sum, insertedAmount) => {
+        const diff = json_limit - json_sum - insertedAmount;
+        console.log(diff);
+        return diff;
+    }
+
+    const checkLimit = async (insertedAmount) => {
+
+        if (json_limit !== null/* && json_sum !== null*/) {
+            json_sum = await getSumOfExpensesForSelectedMonth(selectedCategory, selectedDate);
+            console.log(json_sum);
+
+            const diff = calculateLimits(json_limit, json_sum, insertedAmount);
+            renderOnDom(json_limit, json_sum, diff);
+
+        } else {
+            sumFromSelectedMonth.textContent = '';
+            difference.textContent = '';
+        }
+    }
+    amount.addEventListener("input", function () {
+        if (amount.value === "" || amount.value === "0") {
+            insertedAmount = 0;
+        } else {
+            insertedAmount = parseFloat(amount.value).toFixed(2);
+            console.log(insertedAmount);
+        }
+        if (selectedCategory && selectedDate && insertedAmount) {
+            setTimeout(() => {
+                checkLimit(insertedAmount);
+            }, 500);
+
+        }
+    });
+
+    category.addEventListener("change", async function () {
+        selectedCategory = category.value;
+        // insertedAmount = parseFloat(amount.value);
+        // insertedAmount = amount.value || 0;
+        if (amount.value === "" || amount.value === "0") {
+            insertedAmount = 0;
+        } else {
+            insertedAmount = parseFloat(amount.value);
+        }
+        if (selectedCategory && selectedDate) {
+            json_limit = await getLimitForCategory(selectedCategory);
+            console.log(json_limit);
+            setTimeout(() => {
+                checkLimit(insertedAmount);
+            }, 500);
+        } else if (selectedCategory) {
+            json_limit = await getLimitForCategory(selectedCategory);
+            console.log(json_limit);
+        } else {
+            clearData();
+        }
+    });
+
+    date.addEventListener("change", async function () {
+        selectedDate = date.value;
+
+        if (selectedCategory && selectedDate) {
+            setTimeout(() => {
+                checkLimit(insertedAmount);
+            }, 300);
+        } else {
+            // clearData();
+            difference.textContent = '';
+            sumFromSelectedMonth.textContent = '';
+        }
+    });
+
+
+
+    const getSumOfExpensesForSelectedMonth = async (category_id, date_id) => {
+        const res = await fetch(`http://localhost:8080/api/sum/${category_id}?date=${date_id}`);
+        const data = await res.json();
+        return data;
+    }
+
+    const getLimitForCategory = async (category_id) => {
+        const res = await fetch(`http://localhost:8080/api/limit/${category_id}`);
+        const json_lim = await res.json();
+        // console.log(json_lim);
+        if (json_lim !== null) {
+            limitHeading.textContent = `Limit for selected category: ${json_lim} PLN`;
+        } else {
+            clearData();
+        }
+        return json_lim;
+    }
+</script>
 {% endblock %}

@@ -22,7 +22,7 @@ class Settings extends Authenticated
     protected function before()
     {
         parent::before();
-        $this->user = Auth::getUser(); //unikamy redundacji kodu
+        $this->user = Auth::getUser();
     }
 
     /**
@@ -35,7 +35,6 @@ class Settings extends Authenticated
         $user_id = $this->user->id;
 
         View::renderTemplate('Settings/settings.html', [
-            /*'user' => $this->user,*/
             'income_cat' => Incomes::getIncomeCategories($user_id),
             'expense_cat' => Expenses::getExpenseCategories($user_id),
             'pay_method' => Expenses::getPaymentMethods($user_id)
@@ -112,6 +111,30 @@ class Settings extends Authenticated
             $this->redirect('/settings/show');
         } else {
             Flash::addMessage('Could not delete category!', FLASH::DANGER);
+            $this->redirect('/settings/show');
+        }
+    }
+
+    public function setLimitAction()
+    {
+        if (Expenses::setLimit($_POST['categoryExpenses'], $_POST['limit'])) {
+
+            Flash::addMessage('Limit added succesfully.');
+            $this->redirect('/settings/show');
+        } else {
+            Flash::addMessage('Could not set limit!', FLASH::DANGER);
+            $this->redirect('/settings/show');
+        }
+    }
+
+    public function unsetLimitAction()
+    {
+        if (Expenses::unsetLimit($_POST['categoryExpensesOutside'])) {
+
+            Flash::addMessage('Limit unsetted succesfully.');
+            $this->redirect('/settings/show');
+        } else {
+            Flash::addMessage('Limit for this category is not set yet!', FLASH::DANGER);
             $this->redirect('/settings/show');
         }
     }

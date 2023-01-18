@@ -1,5 +1,8 @@
-Hello! Home budget Web App password reset
+Hello! Home budget Web App password reset e-mail.
 
 Please click the following link to reset your password:
 
 {{ url }}
+
+
+2023, developed by Szymon Cieszyński

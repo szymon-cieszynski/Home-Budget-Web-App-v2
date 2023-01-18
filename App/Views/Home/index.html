@@ -8,11 +8,12 @@
     <section class="pagedescription">
         <div class="container">
             <header>
-                {% if current_user %}
+                <h5>
+                    {% if current_user %}
 
-                Hello {{ current_user.username }}{#,ID: {{ current_user.id }}#}! Choose from navigation bar what do you
-                want to do...
-
+                    Hello {{ current_user.username }}{#,ID: {{ current_user.id }}#}! How you doing?
+                    Choose from navigation bar what do you want to do...
+                </h5>
                 {% else %}
                 <h1>Home Budget - WEB app</h1>
                 <h2>Manage your budget whenever you want. Create free account and take control over your life!</h2>

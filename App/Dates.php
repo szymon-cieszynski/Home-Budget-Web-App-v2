@@ -5,6 +5,7 @@ namespace App;
 class Dates {
     
     protected $last_day = '';
+    const minimumDate = "2022-01-01";
 
     public static function getMinMaxDate($period, $currentMonth, $current_year)
     {
@@ -18,14 +19,11 @@ class Dates {
         }
 
         if ($period == 'prevM') {
-            $previousMonth = '';
-
-            if ($current_year == '01') {
-                $current_year == '12';
-            }
+             $previousMonth = '';
 
             if ($currentMonth == '01') {
-                $previousMonth == '12';
+                $previousMonth = '12';
+                $current_year = (int)$current_year -1;
             } else {
                 $previousMonth = (int)$currentMonth - 1;
             }

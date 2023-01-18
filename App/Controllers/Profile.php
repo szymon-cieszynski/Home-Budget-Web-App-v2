@@ -19,7 +19,7 @@ class Profile extends Authenticated
      */
     protected function before()
     {
-        parent::before(); //to wywoła metodę która wymaga zalogowania do strony jeśli chcemy mieć dostęp do edycji danych..!!
+        parent::before(); 
         $this->user = Auth::getUser(); //unikamy redundacji kodu
     }
 

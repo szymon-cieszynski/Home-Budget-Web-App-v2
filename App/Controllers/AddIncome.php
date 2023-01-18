@@ -26,7 +26,6 @@ class AddIncome extends \Core\Controller
         View::renderTemplate('AddIncome/new.html', [
             'income_cat' => $incomes_cat
         ]);
-        //var_dump($user_categories);
     }
 
     public function createAction()
@@ -41,7 +40,6 @@ class AddIncome extends \Core\Controller
                 'income_cat' => $incomes_cat
             ]);
         }else{
-            //wyswietli ten sam formularz dla new lecz z błędami jakie sie pojawiły
             View::renderTemplate('AddIncome/new.html', [
                 'incomes' => $income
               ]);

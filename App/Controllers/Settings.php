@@ -131,7 +131,7 @@ class Settings extends Authenticated
 
     public function unsetLimitAction()
     {
-        if (Expenses::unsetLimit($_POST['categoryExpenses'])) {
+        if (Expenses::unsetLimit($_POST['categoryExpensesOutside'])) {
 
             Flash::addMessage('Limit unsetted succesfully.');
             $this->redirect('/settings/show');

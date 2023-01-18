@@ -250,7 +250,7 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button class="button" id="forced"
+                                        <button class="button" form="limit-outside-modal" id="unset"
                                             formaction="/settings/unsetLimit">Unset</button>
                                         <button type="button" class="button" data-bs-dismiss="modal">Cancel</button>
                                         <button class="button" formaction="/settings/setLimit">Set</button>
@@ -259,6 +259,9 @@
                             </div>
                         </div>
                     </div>
+                </form>
+                <form method="post" id="limit-outside-modal" hidden>
+                    <input type="hidden" name="categoryExpensesOutside" id="categoryExpensesOutside">
                 </form>
 
             </div>
@@ -410,17 +413,16 @@
             document.getElementById("modalButtonsMethods").hidden = true;
         }
     });
-    // document.getElementById("forced").addEventListener("click", changeRequired);
-    // function changeRequired() {
-    //     $('#editExpense').removeAttr('required')
-    //     document.getElementById("editExpense").required = false;
-    // }
+
+    document.querySelector("#unset").addEventListener("click", function () {
+        let selectedCategoryId = document.querySelector("#categoryExpenses").value;
+        document.querySelector("#categoryExpensesOutside").value = selectedCategoryId;
+        console.log(selectedCategoryId);
+    });
+
 
 
     $(document).ready(function () {
-        // $("#forced").click(function () {
-        //     $("#limit").removeAttr("required");
-        // });
         $("#forced").on("click", function () {
             $("#limit").removeAttr("required");
         });
@@ -493,11 +495,6 @@
                 }
             }
         });
-        // document.getElementById("forced").addEventListener("click", changeRequired);
-        // function changeRequired() {
-        //     $('#editExpense').removeAttr('required')
-        //     document.getElementById("editExpense").required = false;
-        // }
     });
 
 
